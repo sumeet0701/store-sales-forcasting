@@ -1,10 +1,10 @@
 import yaml
-from src.exception import CustomException
+from store_sales.exception import CustomException
 import os,sys
 import dill
 import pandas as pd
 import numpy as np
-from src.constant import *
+from store_sales.constant import *
 
 def write_yaml_file(file_path:str,data:dict=None):
     """
@@ -56,7 +56,8 @@ def save_object(file_path:str,obj):
             dill.dump(obj,file_obj)
     except Exception as e:
         raise CustomException(e,sys) from e
-    
+
+'''   
 def load_data(file_path: str, schema_file_path: str) -> pd.DataFrame:
     try:
         dataset_schema = read_yaml_file(schema_file_path)
@@ -78,7 +79,8 @@ def load_data(file_path: str, schema_file_path: str) -> pd.DataFrame:
 
     except Exception as e:
         raise CustomException(e, sys) from e
-    
+'''
+
 def load_numpy_array_data(file_path: str) -> np.array:
     """
     load numpy array data from file
