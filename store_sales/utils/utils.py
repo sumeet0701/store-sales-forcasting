@@ -4,7 +4,9 @@ import os,sys
 import dill
 import pandas as pd
 import numpy as np
+import pymongo
 from store_sales.constant import *
+from store_sales.logger import logging
 
 def write_yaml_file(file_path:str,data:dict=None):
     """
@@ -110,3 +112,25 @@ def save_data(file_path:str, data:pd.DataFrame):
         data.to_csv(file_path,index = None)
     except Exception as e:
         raise CustomException(e,sys) from e
+    
+def get_collection_as_dataframe(database_name:str , collection_name:str) -> pd.DataFrame:
+    """
+    Description: This function return collection as Dataframe
+    =============================================================
+    params:
+    database_name = database name
+    collection_name = collection name 
+    =================================================================
+    return pandas dataframe of a collection 
+    """
+    try:
+        logging.info(f"Reading data from Database:{database_name} and collection {collection_name}")
+        df = pd.DataFrame(list(pymongo.mongo_client[database_name][collection_name].find()))
+        logging.info(f"Found Columns :{df.columns}")
+        if "_id" in df.columns:
+            logging.info(f"Droping Columns: _id")
+            df = df.drop("_id", axis = 1)
+        logging.info(f"Row and Columns in df: {df.shape}")
+        return df
+    except Exception as e:
+        raise CustomException(e, sys)

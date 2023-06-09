@@ -16,11 +16,6 @@ TRAINING_PIPELINE_CONFIG_KEY = "training_pipeline_config"
 TRAINING_PIPELINE_ARTIFACT_DIR_KEY = "artifact_dir"
 TRAINING_PIPELINE_NAME_KEY = "pipeline_name"
 
-
-
-from store_sales.constant.training_pipeline import *
-
-# Data_Ingestion related variables
 # Data Ingestion related variable
 DATA_INGESTION_CONFIG_KEY = "data_ingestion_config"
 DATA_INGESTION_ARTIFACT_DIR = "data_ingestion"
@@ -73,4 +68,4 @@ DATABASE_NAME_KEY = "Store_Sales_db"
 DATABASE_COLLECTION_NAME_KEY = "Store_Sales"
 DATABASE_TRAINING_COLLECTION_NAME_KEY = "Training"
 DATABASE_TEST_COLLECTION_NAME_KEY = "Test"
-
+DATA_PATH = r"C:\Users\Sumeet Maheshwari\Desktop\dataset\data_dump\data-dump\final.csv"

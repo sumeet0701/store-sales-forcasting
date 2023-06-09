@@ -54,6 +54,10 @@ categorical_columns:
 date_columns:
 - date
 
+drop_columns_ingestion:
+- Unnamed
+- id
+
 drop_columns:
 - transferred
 - locale

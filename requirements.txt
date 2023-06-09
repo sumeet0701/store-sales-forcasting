@@ -49,4 +49,5 @@ prophet
 pmdarima
 lightgbm
 streamlit
+googleapiclient
 -e .
