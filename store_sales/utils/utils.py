@@ -113,24 +113,21 @@ def save_data(file_path:str, data:pd.DataFrame):
     except Exception as e:
         raise CustomException(e,sys) from e
     
-def get_collection_as_dataframe(database_name:str , collection_name:str) -> pd.DataFrame:
-    """
-    Description: This function return collection as Dataframe
-    =============================================================
-    params:
-    database_name = database name
-    collection_name = collection name 
-    =================================================================
-    return pandas dataframe of a collection 
-    """
+def save_array_to_directory(array: np.array, 
+                            directory_path: str, 
+                            file_name: str, 
+                            extension: str = '.npy'):
     try:
-        logging.info(f"Reading data from Database:{database_name} and collection {collection_name}")
-        df = pd.DataFrame(list(pymongo.mongo_client[database_name][collection_name].find()))
-        logging.info(f"Found Columns :{df.columns}")
-        if "_id" in df.columns:
-            logging.info(f"Droping Columns: _id")
-            df = df.drop("_id", axis = 1)
-        logging.info(f"Row and Columns in df: {df.shape}")
-        return df
+        # Create the directory if it doesn't exist
+        os.makedirs(directory_path, exist_ok=True)
+
+        # Add the extension to the file name
+        file_name_with_extension = file_name + extension
+
+        # Generate the file path
+        file_path = os.path.join(directory_path, file_name_with_extension)
+
+        # Save the array to the file path
+        np.save(file_path, array)
     except Exception as e:
-        raise CustomException(e, sys)
+        CustomException(e,sys)

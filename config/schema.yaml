@@ -53,15 +53,9 @@ drop_columns:
 - transferred
 - locale
 - locale_name
-- year
 - description
 - city
 - state
-- month
-- week
-- quarter
-- day_of_week
-
 
 
 label_encoder_colums:
@@ -70,16 +64,3 @@ label_encoder_colums:
 
 target_column:
 - sales
-
-time_series_columns:
-- sales
-- holiday_type
-- onpromotion
-- store_type
-- store_nbr
-
-exogenous_columns:
-- holiday_type
-- onpromotion
-- store_type
-- store_nbr
