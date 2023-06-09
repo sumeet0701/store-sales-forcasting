@@ -1,0 +1,14 @@
+[2023-06-09 09:27:25,673] root - INFO - Training pipleine config: TrainingPipelineConfig(artifact_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact')
+[2023-06-09 09:27:25,673] root - ERROR - 
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\pipeline\training_pipeline.py] at 
+                        try block line number: [50] execption block line number: [58]
+                        error message: [
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\pipeline\training_pipeline.py] at 
+                        try block line number: [41] execption block line number: [44]
+                        error message: [
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\config\Configuration.py] at 
+                        try block line number: [52] execption block line number: [61]
+                        error message: [<lambda>() got an unexpected keyword argument 'ingested_data_dir']]]
