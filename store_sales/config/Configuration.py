@@ -1,12 +1,16 @@
 import sys
-from store_sales.constant import *
+from store_sales.constant.training_pipeline import constant_training_pipeline
+from store_sales.constant.training_pipeline import data_ingestion
+from store_sales.constant.training_pipeline import data_transformation
+from store_sales.constant.training_pipeline import data_validation
+from store_sales.constant.training_pipeline import model_trainer
+from store_sales.constant.training_pipeline import time_model_trainer
 from store_sales.logger import logging
 from store_sales.exception import CustomException
 from store_sales.entity.config_entity import *
 from store_sales.utils.utils import read_yaml_file
-from store_sales.constant.training_pipeline import *
+from store_sales.constant.training_pipeline.constant_training_pipeline import *
 from store_sales.constant import *
-
 
 
 class Configuration:
@@ -59,31 +63,40 @@ class Configuration:
         try:
             artifact_dir = self.training_pipeline_config.artifact_dir
 
-            data_validation_artifact_dir = os.path.join(artifact_dir, DATA_VALIDATION_ARTIFACT_DIR_NAME,self.time_stamp)
-
+            data_validation_artifact_dir=os.path.join(
+                artifact_dir,
+                DATA_VALIDATION_ARTIFACT_DIR,
+                self.time_stamp
+            )
             data_validation_config = self.config_info[DATA_VALIDATION_CONFIG_KEY]
-
-            validated_path=os.path.join(data_validation_artifact_dir,
-                                        DATA_VALIDATION_VALID_DATASET)
-
-            schema_file_path = os.path.join(ROOT_DIR,
-                                            data_validation_config[DATA_VALIDATION_SCHEMA_DIR_KEY],
-                                            data_validation_config[DATA_VALIDATION_SCHEMA_FILE_NAME_KEY])
-
+            
+            validated_path=os.path.join(data_validation_artifact_dir,DATA_VALIDATION_VALID_DATASET)
+        
+            schema_dir=self.config_info[SCHEMA_CONFIG_KEY]
+        
+            schema_file_path = os.path.join(
+                ROOT_DIR,
+                schema_dir[SCHEMA_DIR_KEY],
+                schema_dir[SCHEMA_FILE_NAME]
+            )
             report_file_path = os.path.join(data_validation_artifact_dir,
                                             data_validation_config[DATA_VALIDATION_REPORT_FILE_NAME_KEY])
 
             report_page_file_path = os.path.join(data_validation_artifact_dir,
                                             data_validation_config[DATA_VALIDATION_REPORT_PAGE_FILE_NAME_KEY])
+            
+            
 
-            data_validation_config = DataValidationConfig(schema_file_path=schema_file_path,
-                                                          report_file_path=report_file_path,
-                                                          report_page_file_path=report_page_file_path,
-                                                          file_path= validated_path)
-            logging.info(f"Data Validation config: {data_validation_config}")
+            data_validation_config = DataValidationConfig(
+                schema_file_path=schema_file_path,
+                file_path=validated_path,
+                report_file_path=report_file_path,
+                report_page_file_path=report_page_file_path
+                )
             return data_validation_config
         except Exception as e:
             raise CustomException(e,sys) from e
+
     
         
 
@@ -117,6 +130,13 @@ class Configuration:
             feature_engineering_object_file_path = os.path.join(data_transformation_artifact_dir,
                                 data_transformation_config[DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
                                 data_transformation_config[DATA_TRANSFORMATION_FEATURE_ENGINEERING_FILE_NAME_KEY])
+            
+            time_series_data_file_path=os.path.join(data_transformation_artifact_dir,
+                                data_transformation_config[DATA_TRANSFORMATION_DIR_NAME_KEY],
+                                data_transformation_config[DATA_TRANSFORMATION_TIME_SERIES_DATA_DIR])
+            
+            
+            
 
             transformed_train_dir = os.path.join(data_transformation_artifact_dir,
                                 data_transformation_config[DATA_TRANSFORMATION_DIR_NAME_KEY],
@@ -128,6 +148,7 @@ class Configuration:
 
             data_transformation_config = DataTransformationConfig(transformed_train_dir=transformed_train_dir,
                                                     transformed_test_dir=transformed_test_dir,
+                                                    time_series_data_file_path=time_series_data_file_path,
                                                     preprocessed_object_file_path=preprocessed_object_file_path,
                                                     feature_engineering_object_file_path=feature_engineering_object_file_path)
             
@@ -156,6 +177,26 @@ class Configuration:
                                                       self.time_stamp)
 
             model_trainer_config = self.config_info[MODEL_TRAINER_CONFIG_KEY]
+
+            trained_model_file_path = os.path.join(model_trainer_artifact_dir,
+                                                   model_trainer_config[MODEL_TRAINER_TRAINED_MODEL_DIR],
+                                                   model_trainer_config[MODEL_TRAINER_TRAINED_MODEL_FILE_NAME_KEY])
+ 
+            model_trainer_config = ModelTrainerConfig(trained_model_file_path=trained_model_file_path)
+            logging.info(f"Model Trainer Config : {model_trainer_config}")
+            return model_trainer_config
+        except Exception as e:
+            raise CustomException(e,sys) from e
+        
+        
+    def get_model_trainer_time_series_config(self) -> ModelTrainerConfig:
+        try:
+            artifact_dir = self.training_pipeline_config.artifact_dir
+            model_trainer_artifact_dir = os.path.join(artifact_dir, 
+                                                      MODEL_TRAINER_ARTIFACT_DIR, 
+                                                      self.time_stamp)
+
+            model_trainer_config = self.config_info[MODEL_TRAINER_TIME_CONFIG_KEY]
 
             trained_model_file_path = os.path.join(model_trainer_artifact_dir,
                                                    model_trainer_config[MODEL_TRAINER_TRAINED_MODEL_DIR],

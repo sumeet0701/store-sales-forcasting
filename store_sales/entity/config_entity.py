@@ -1,10 +1,11 @@
 from collections import namedtuple
 
 
-DataIngestionConfig = namedtuple("DataIngestionConfig",[
+DataIngestionConfig=namedtuple("DataIngestionConfig",[
     "raw_data_dir",
-    "ingested_train_dir",
-    "ingested_test_dir"])
+    "ingested_data_dir"
+    ])
+
 
 
 DataValidationConfig = namedtuple("DataValidationConfig",[
