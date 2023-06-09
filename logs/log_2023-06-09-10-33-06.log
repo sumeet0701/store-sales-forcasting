@@ -1,0 +1,34 @@
+[2023-06-09 10:33:10,403] root - INFO - Training pipleine config: TrainingPipelineConfig(artifact_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact')
+[2023-06-09 10:33:10,403] root - INFO - Data Ingestion config: DataIngestionConfig(raw_data_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_ingestion\\2023-06-09-10-33-06\\raw_data', ingested_data_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_ingestion\\2023-06-09-10-33-06\\ingested_data')
+[2023-06-09 10:33:10,405] root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Data Ingestion log started.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+
+
+[2023-06-09 10:33:10,522] root - INFO - Data Ingestion Artifact
+[2023-06-09 10:33:10,522] root - INFO - File Path : C:\Users\Sumeet Maheshwari\Desktop\dataset\data_dump\data-dump\final.csv
+[2023-06-09 10:33:10,522] root - INFO - File Name: final_data.csv
+[2023-06-09 10:33:10,522] root - INFO - File Ingested File Path: C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\Sales_Forecasting_Artifact\Artifact\data_ingestion\2023-06-09-10-33-06\raw_data\final_data.csv
+[2023-06-09 10:33:10,522] root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Data Validation log started.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+
+
+[2023-06-09 10:33:10,526] root - INFO - Validation Process Started
+[2023-06-09 10:33:25,264] root - INFO - Train_set status|is Train filename validated?: True|is train column name validated?: True|whole missing columns?True
+[2023-06-09 10:33:25,389] root - INFO - Exported validated  dataset to file: [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\Sales_Forecasting_Artifact\Artifact\data_validation\2023-06-09-10-33-06\validated_data]
+[2023-06-09 10:33:25,389] root - INFO - Checking for Data Drift
+[2023-06-09 10:33:25,389] root - INFO - Generating data drift report.json file
+[2023-06-09 10:34:00,484] root - INFO - Report.json file generation successful!!
+[2023-06-09 10:34:00,650] root - INFO - Generating data drift report.html page
+[2023-06-09 10:34:46,539] root - INFO - Report.html page generation successful!!
+[2023-06-09 10:34:46,702] root - ERROR - 
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\pipeline\training_pipeline.py] at 
+                        try block line number: [59] execption block line number: [66]
+                        error message: [
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\pipeline\training_pipeline.py] at 
+                        try block line number: [50] execption block line number: [52]
+                        error message: [
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\components\data_validation.py] at 
+                        try block line number: [178] execption block line number: [189]
+                        error message: [<lambda>() got an unexpected keyword argument 'eport_file_path']]]
+[2023-06-09 10:34:46,705] root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Data Validation log completed.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

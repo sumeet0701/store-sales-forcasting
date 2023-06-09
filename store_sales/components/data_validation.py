@@ -16,6 +16,8 @@ from store_sales.constant import *
 import pandas as pd
 import json
 
+from sklearn.model_selection import train_test_split
+
 from evidently.model_profile import Profile
 from evidently.model_profile.sections import DataDriftProfileSection
 from evidently.dashboard import Dashboard
@@ -113,9 +115,9 @@ class DataValidation:
 
     def get_train_test_df(self):
         try:
-            train_df = pd.read_csv(self.data_ingestion_artifact.train_file_path)
-            test_df = pd.read_csv(self.data_ingestion_artifact.test_file_path)
-            return train_df,test_df
+            df = pd.read_csv(self.data_ingestion_artifact.ingestion_file_path)
+            train_df , test_df = train_test_split(df, test_size= 0.3, random_state= 0)
+            return train_df, test_df
         except Exception as e:
             raise CustomException(e,sys) from e
     def get_and_save_data_drift_report(self):

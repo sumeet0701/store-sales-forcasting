@@ -1,6 +1,5 @@
 File_Name: final_data.csv
 
-
 columns:
   date: object
   store_nbr: int64
@@ -12,7 +11,7 @@ columns:
   locale_name: object
   description: object
   transferred: bool
-  oil_price: float64
+  dcoilwtico: float64
   city: object
   state: object
   store_type: object
