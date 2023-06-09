@@ -1,0 +1,40 @@
+schema_config:
+  schema_dir: config
+  schema_file: schema.yaml
+
+training_pipeline_config:
+  pipeline: Sales_Forecasting_Artifact
+  artifact_dir: Artifact
+
+data_ingestion_config:
+  file_path: E:\Ineuron may batch projects\Projects\Store sales Forecasting\Jup_Notebook\Merged_dataset\outlier_clean.csv
+  file_name: final_data.csv
+  raw_data_dir: raw_data
+  ingested_dir: ingested_data
+  ingested_train_dir: train
+  ingested_test_dir: test 
+
+data_validation_config:
+  data_validation: data_validation
+  validation_dir: validated_data
+  report_file_name: report.json
+  report_page_file_name: report.html
+  Train_data: Train_data
+  Test_data: Test_data
+  
+  
+
+data_transformation_config:
+  transformed_dir: transformed_data
+  transformed_train_dir: train
+  transformed_test_dir: test
+  preprocessing_dir: preprocessed
+  feature_engineering_object_file_name: feat_eng.pkl
+  preprocessed_object_file_name: preprocessed.pkl
+
+
+model_trainer_config:
+  trained_model_dir: trained_model
+  model_file_name: model.pkl
+  model_config_dir: config
+  model_config_file_name: model.yaml
