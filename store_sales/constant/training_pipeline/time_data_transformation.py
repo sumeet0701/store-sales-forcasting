@@ -1,9 +1,6 @@
-# Time Data Transformation related variables
-PIKLE_FOLDER_NAME_KEY='Time_Prediction_Files'
-# Artifact
-DATA_TRANSFORMATION_ARTIFACT_DIR = "time_data_transformation"
 
-# key  ---> config.yaml---->values
+PIKLE_FOLDER_NAME_KEY='Time_Prediction_Files'
+
 # Time Data Transformation related variables
 TIME_DATA_TRANSFORMATION_CONFIG_KEY = "time_data_transformation_config"
 TIME_DATA_TRANSFORMATION_ARTIFACT_DIR = "time_data_transformation"
