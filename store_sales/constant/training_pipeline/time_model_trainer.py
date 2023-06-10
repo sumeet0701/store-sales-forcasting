@@ -1,4 +1,4 @@
-PIKLE_FOLDER_NAME_KEY = "prediction_files"
+PIKLE_FOLDER_NAME_KEY = "Time_Prediction_Files"
 
 # Model Training related variables
 MODEL_TRAINER_TIME_CONFIG_KEY = "model_trainer_time_config"

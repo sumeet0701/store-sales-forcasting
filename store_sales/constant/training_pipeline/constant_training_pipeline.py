@@ -20,4 +20,4 @@ from store_sales.constant.training_pipeline.data_validation import *
 from store_sales.constant.training_pipeline.data_transformation import *
 from store_sales.constant.training_pipeline.model_trainer import *
 from store_sales.constant.training_pipeline.time_model_trainer import *
-from store_sales.constant.training_pipeline.time_data_transformation import * 
+from store_sales.constant.training_pipeline.time_data_transformation import *

@@ -1,4 +1,3 @@
-
 PIKLE_FOLDER_NAME_KEY='Time_Prediction_Files'
 
 # Time Data Transformation related variables

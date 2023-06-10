@@ -158,20 +158,20 @@ class Configuration:
             data_transformation_config = self.config_info[DATA_TRANSFORMATION_CONFIG_KEY]
 
             preprocessed_object_file_path = os.path.join(time_data_transformation_artifact_dir,
-                                data_transformation_config[DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
-                                data_transformation_config[DATA_TRANSFORMATION_PREPROCESSING_FILE_NAME_KEY])
+                                data_transformation_config[TIME_DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
+                                data_transformation_config[TIME_DATA_TRANSFORMATION_PREPROCESSING_FILE_NAME_KEY])
 
             feature_engineering_object_file_path = os.path.join(time_data_transformation_artifact_dir,
-                                data_transformation_config[DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
-                                data_transformation_config[DATA_TRANSFORMATION_FEATURE_ENGINEERING_FILE_NAME_KEY])           
+                                data_transformation_config[TIME_DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
+                                data_transformation_config[TIME_DATA_TRANSFORMATION_FEATURE_ENGINEERING_FILE_NAME_KEY])           
             
             transformed_train_dir = os.path.join(time_data_transformation_artifact_dir,
-                                data_transformation_config[DATA_TRANSFORMATION_DIR_NAME_KEY],
-                                data_transformation_config[DATA_TRANSFORMATION_TRAIN_DIR_NAME_KEY])
+                                data_transformation_config[TIME_DATA_TRANSFORMATION_DIR_NAME_KEY],
+                                data_transformation_config[TIME_DATA_TRANSFORMATION_TRAIN_DIR_NAME_KEY])
 
             transformed_test_dir = os.path.join(time_data_transformation_artifact_dir,
-                                data_transformation_config[DATA_TRANSFORMATION_DIR_NAME_KEY],
-                                data_transformation_config[DATA_TRANSFORMATION_TEST_DIR_NAME_KEY])
+                                data_transformation_config[TIME_DATA_TRANSFORMATION_DIR_NAME_KEY],
+                                data_transformation_config[TIME_DATA_TRANSFORMATION_TEST_DIR_NAME_KEY])
 
             data_transformation_config = DataTransformationConfig(time_transformed_train_dir=transformed_train_dir,
                                                     time_transformed_test_dir=transformed_test_dir,
