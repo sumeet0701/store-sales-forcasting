@@ -5,6 +5,7 @@ from store_sales.constant.training_pipeline import data_transformation
 from store_sales.constant.training_pipeline import data_validation
 from store_sales.constant.training_pipeline import model_trainer
 from store_sales.constant.training_pipeline import time_model_trainer
+from store_sales.constant.training_pipeline import time_data_transformation
 from store_sales.logger import logging
 from store_sales.exception import CustomException
 from store_sales.entity.config_entity import *
@@ -141,21 +142,41 @@ class Configuration:
                                                     preprocessed_object_file_path=preprocessed_object_file_path,
                                                     feature_engineering_object_file_path=feature_engineering_object_file_path)
             
-            
-            ### Folder Structure ####
-            # Artifact 
-                # data_Transformation 
-                    # Transformed File pAth
-                      
-                        
-                    # Preprocessor 
-
-            
-            
             logging.info(f"Data Transformation Config: {data_transformation_config}")
             return data_transformation_config
         except Exception as e:
             raise CustomException(e,sys) from e
+        
+
+    def get_time_data_transformation_config(self) -> DataTransformationConfig:
+        try:
+            artifact_dir = self.training_pipeline_config.artifact_dir
+            time_data_transformation_artifact_dir = os.path.join(artifact_dir, 
+                                                            TIME_DATA_TRANSFORMATION_ARTIFACT_DIR, 
+                                                            self.time_stamp)
+
+            data_transformation_config = self.config_info[DATA_TRANSFORMATION_CONFIG_KEY]
+
+            preprocessed_object_file_path = os.path.join(time_data_transformation_artifact_dir,
+                                data_transformation_config[DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
+                                data_transformation_config[DATA_TRANSFORMATION_PREPROCESSING_FILE_NAME_KEY])
+
+            feature_engineering_object_file_path = os.path.join(time_data_transformation_artifact_dir,
+                                data_transformation_config[DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
+                                data_transformation_config[DATA_TRANSFORMATION_FEATURE_ENGINEERING_FILE_NAME_KEY])           
+            
+            transformed_train_dir = os.path.join(time_data_transformation_artifact_dir,
+                                data_transformation_config[DATA_TRANSFORMATION_DIR_NAME_KEY],
+                                data_transformation_config[DATA_TRANSFORMATION_TRAIN_DIR_NAME_KEY])
+
+            transformed_test_dir = os.path.join(time_data_transformation_artifact_dir,
+                                data_transformation_config[DATA_TRANSFORMATION_DIR_NAME_KEY],
+                                data_transformation_config[DATA_TRANSFORMATION_TEST_DIR_NAME_KEY])
+
+            data_transformation_config = DataTransformationConfig(time_transformed_train_dir=transformed_train_dir,
+                                                    time_transformed_test_dir=transformed_test_dir,
+                                                    time_preprocessed_object_file_path=preprocessed_object_file_path,
+                                                    time_feature_engineering_object_file_path=feature_engineering_object_file_path)
         
         
     def get_model_trainer_config(self) -> ModelTrainerConfig:
