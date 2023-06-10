@@ -105,4 +105,8 @@ DROP_COLUMN_KEY='drop_columns'
 DATE_COLUMN='date_columns'
 LABEL_ENCODER_COLUMNS = 'label_encoder_columns'
 
+# database related variables
+DATABASE_NAME = 'store_sales_db'
+COLLECTION_NAME = 'store_sales'
+
 

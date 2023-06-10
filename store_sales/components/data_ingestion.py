@@ -7,7 +7,7 @@ import pandas as pd
 from store_sales.logger import logging
 from store_sales.exception import CustomException
 from store_sales.constant import *
-from store_sales.constant.db_operation import *
+
 from store_sales.utils.utils import read_yaml_file
 from store_sales.data_access.goog_final import GoogleDriveDownloader
 from store_sales.entity.config_entity import DataIngestionConfig

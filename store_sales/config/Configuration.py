@@ -3,7 +3,7 @@ from store_sales .logger import logging
 from store_sales.exception import CustomException
 from store_sales.entity.config_entity import *
 from store_sales.utils.utils import read_yaml_file
-from store_sales.constant.training_pipeline.constant_training_pipeline import *
+
 from store_sales.constant import *
 
 
