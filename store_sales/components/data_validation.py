@@ -178,7 +178,7 @@ class DataValidation:
             data_validation_artifact = DataValidationArtifact(
                 schema_file_path=self.schema_path,
                 message=message,
-                eport_file_path=self.data_validation_config.report_file_path,
+                report_file_path=self.data_validation_config.report_file_path,
                 report_page_file_path=self.data_validation_config.report_page_file_path,
                 validated_file_path = validated_file_path  
             )
