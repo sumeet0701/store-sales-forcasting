@@ -27,7 +27,7 @@ class IngestedDataValidation:
 
     def missing_values_whole_column(self)->bool:
         try:
-            df = pd.read_csv(self.validate_path)
+            df = pd.read_csv(self.validate_path, low_memory= False)
             count = 0
             for columns in df:
                 if (len(df[columns]) - df[columns].count()) == len(df[columns]):
@@ -38,7 +38,7 @@ class IngestedDataValidation:
 
     def replace_null_values_with_null(self)->bool:
         try:
-            df = pd.read_csv(self.validate_path)
+            df = pd.read_csv(self.validate_path, low_memory= False)
             df.fillna('NULL',inplace=True)
         except Exception as e:
             raise CustomException(e,sys) from e
@@ -46,13 +46,9 @@ class IngestedDataValidation:
     
     def check_column_names(self)->bool:
         try:
-            df = pd.read_csv(self.validate_path)
+            df = pd.read_csv(self.validate_path, low_memory= False)
             df_column_names = df.columns
-  
             schema_column_names = list(self.data['columns'].keys())
-           
-            
-
             return True if (collections.Counter(df_column_names) == collections.Counter(schema_column_names)) else False
 
         except Exception as e:

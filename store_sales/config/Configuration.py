@@ -97,9 +97,6 @@ class Configuration:
         except Exception as e:
             raise CustomException(e,sys) from e
 
-    
-        
-
     def get_training_pipeline_config(self) ->TrainingPipelineConfig:
         try:
             training_pipeline_config = self.config_info[TRAINING_PIPELINE_CONFIG_KEY]
@@ -129,15 +126,8 @@ class Configuration:
 
             feature_engineering_object_file_path = os.path.join(data_transformation_artifact_dir,
                                 data_transformation_config[DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
-                                data_transformation_config[DATA_TRANSFORMATION_FEATURE_ENGINEERING_FILE_NAME_KEY])
+                                data_transformation_config[DATA_TRANSFORMATION_FEATURE_ENGINEERING_FILE_NAME_KEY])           
             
-            time_series_data_file_path=os.path.join(data_transformation_artifact_dir,
-                                data_transformation_config[DATA_TRANSFORMATION_DIR_NAME_KEY],
-                                data_transformation_config[DATA_TRANSFORMATION_TIME_SERIES_DATA_DIR])
-            
-            
-            
-
             transformed_train_dir = os.path.join(data_transformation_artifact_dir,
                                 data_transformation_config[DATA_TRANSFORMATION_DIR_NAME_KEY],
                                 data_transformation_config[DATA_TRANSFORMATION_TRAIN_DIR_NAME_KEY])
@@ -148,7 +138,6 @@ class Configuration:
 
             data_transformation_config = DataTransformationConfig(transformed_train_dir=transformed_train_dir,
                                                     transformed_test_dir=transformed_test_dir,
-                                                    time_series_data_file_path=time_series_data_file_path,
                                                     preprocessed_object_file_path=preprocessed_object_file_path,
                                                     feature_engineering_object_file_path=feature_engineering_object_file_path)
             
