@@ -25,8 +25,7 @@ from sklearn.preprocessing import RobustScaler
 
 class Feature_Engineering(BaseEstimator, TransformerMixin):
     
-    def __init__(self,numerical_columns,categorical_columns,target_columns,drop_columns,date_column,all_column,
-                 time_series_data_path):
+    def __init__(self,numerical_columns,categorical_columns,target_columns,drop_columns,date_column,all_column):
         
         """
         This class applies necessary Feature Engneering 
@@ -46,7 +45,6 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         self.date_column=date_column
         self.columns_to_drop = drop_columns
         self.col=all_column
-        self.time_series_data_path=time_series_data_path
         
         logging.info(f" Numerical Columns , Categorical Columns , Target Column initialised in Feature engineering Pipeline ")
         
@@ -349,8 +347,7 @@ class DataTransformation:
                                                                             target_columns=self.target_column_name,
                                                                             date_column=self.date_column,
                                                                             all_column=self.col,
-                                                                            drop_columns=self.drop_columns,
-                                                                            time_series_data_path=self.time_series_data_path))])
+                                                                            drop_columns=self.drop_columns))])
             return feature_engineering
         except Exception as e:
             raise CustomException(e,sys) from e
@@ -503,13 +500,10 @@ class DataTransformation:
             save_object(file_path=os.path.join(ROOT_DIR,PIKLE_FOLDER_NAME_KEY,
                                  os.path.basename(preprocessing_object_file_path)),obj=preprocessing_obj)
             
-            time_series_data_file_path=os.path.join(self.time_series_data_path,TIME_SERIES_DATA_FILE_NAME)
-            
             data_transformation_artifact = DataTransformationArtifact(
             message="Data transformation successfull.",
             transformed_train_file_path = transformed_train_file_path,
             transformed_test_file_path = transformed_test_file_path,
-            time_series_data_file_path=time_series_data_file_path,
             preprocessed_object_file_path = preprocessing_object_file_path,
             feature_engineering_object_file_path = feature_engineering_object_file_path)
             

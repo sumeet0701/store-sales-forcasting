@@ -20,6 +20,12 @@ DataTransformationConfig = namedtuple("DataTransformationConfig",[
     "preprocessed_object_file_path",
     "feature_engineering_object_file_path"])
 
+TimeDataTransformationConfig = namedtuple("TimeDataTransformationConfig",[
+    "time_transformed_train_dir",
+    "time_transformed_test_dir",
+    "time_preprocessed_object_file_path",
+    "time_feature_engineering_object_file_path"])
+
 DatabaseConfig = namedtuple("DatabaseConfig",[
     "client_url",
     "database_name",

@@ -19,6 +19,14 @@ DataTransformationArtifact = namedtuple("DataTransformationArtifact",[
     "preprocessed_object_file_path",
     "feature_engineering_object_file_path"])
 
+TimeDataTransformationArtifact = namedtuple("TimeDataTransformationArtifact",[
+    "is_transformed",
+    "message",
+    "transformed_train_file_path",
+    "transformed_test_file_path",
+    "preprocessed_object_file_path",
+    "feature_engineering_object_file_path"])
+
 
 
 
