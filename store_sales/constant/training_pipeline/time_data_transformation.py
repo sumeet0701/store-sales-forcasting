@@ -1,6 +1,7 @@
+# Data Transformation related variables
 PIKLE_FOLDER_NAME_KEY='Time_Prediction_Files'
 
-# Time Data Transformation related variables
+# Data Transformation related variables
 TIME_DATA_TRANSFORMATION_CONFIG_KEY = "time_data_transformation_config"
 TIME_DATA_TRANSFORMATION_ARTIFACT_DIR = "time_data_transformation"
 TIME_DATA_TRANSFORMATION_DIR_NAME_KEY = "time_transformed_dir"
