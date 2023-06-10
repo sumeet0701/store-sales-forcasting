@@ -17,6 +17,7 @@ DataValidationConfig = namedtuple("DataValidationConfig",[
 DataTransformationConfig = namedtuple("DataTransformationConfig",[
     "transformed_train_dir",
     "transformed_test_dir",
+    "time_series_data_file_path",
     "preprocessed_object_file_path",
     "feature_engineering_object_file_path"])
 

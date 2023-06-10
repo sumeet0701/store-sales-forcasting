@@ -57,8 +57,7 @@ drop_columns:
 - city
 - state
 
-
-label_encoder_colums:
+label_encoder_columns:
 - holiday_type
 - store_type
 

@@ -1,18 +1,18 @@
-import pandas as pd
 from store_sales.exception import CustomException
 from store_sales.logger import logging
 from store_sales.utils.utils import read_yaml_file
 from store_sales.utils.utils import save_array_to_directory
-from store_sales.utils.utils import save_data
-from store_sales.utils.utils import save_object
+from store_sales.utils.utils import save_data,save_object
 from store_sales.entity.config_entity import DataIngestionConfig
 from store_sales.entity.config_entity import DataValidationConfig
 from store_sales.entity.config_entity import DataTransformationConfig
 from store_sales.entity.artifact_entity import DataIngestionArtifact
 from store_sales.entity.artifact_entity import DataValidationArtifact
 from store_sales.entity.artifact_entity import DataTransformationArtifact
-import numpy as np
 from store_sales.constant import *
+
+import pandas as pd
+import numpy as np
 import sys 
 import re
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -25,7 +25,8 @@ from sklearn.preprocessing import RobustScaler
 
 class Feature_Engineering(BaseEstimator, TransformerMixin):
     
-    def __init__(self,numerical_columns,categorical_columns,target_columns,drop_columns,date_column,all_column):
+    def __init__(self,numerical_columns,categorical_columns,target_columns,drop_columns,date_column,all_column,
+                 time_series_data_path):
         
         """
         This class applies necessary Feature Engneering 
@@ -45,9 +46,19 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         self.date_column=date_column
         self.columns_to_drop = drop_columns
         self.col=all_column
+        self.time_series_data_path=time_series_data_path
+
+        
+                                ########################################################################
         
         logging.info(f" Numerical Columns , Categorical Columns , Target Column initialised in Feature engineering Pipeline ")
         
+       ### Data Wrangling 
+       
+            ## Data Modification
+    #           1. Dropping columns 
+    #           2. 
+    
     
     def drop_columns(self,df: pd.DataFrame):
         try:
@@ -59,9 +70,9 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
             if len(columns_not_found) > 0:
                 logging.info(f"Columns not found: {columns_not_found}")
                 return df
-            else:
-                logging.info(f"Dropping columns: {columns_to_drop}")
-                df.drop(columns=columns_to_drop, axis=1, inplace=True)
+
+            logging.info(f"Dropping columns: {columns_to_drop}")
+            df.drop(columns=columns_to_drop, axis=1, inplace=True)
             logging.info(f"Columns after dropping: {df.columns}")
 
             return df
@@ -170,9 +181,10 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         logging.info(f"Number of missing values: {missing_values}")
 
         logging.info("Forward-filling missing values in 'oil_price' column...")
-        df['oil_price'].interpolate(method='linear', inplace=True)
+        df['oil_price'].fillna(method='ffill', inplace=True)
 
-        
+        logging.info("Backward-filling any remaining missing values in 'oil_price' column...")
+        df['oil_price'].fillna(method='bfill', inplace=True)
 
         # Verify if missing values have been filled
         missing_values_after = df['oil_price'].isna().sum()
@@ -259,46 +271,76 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         df=self.handling_missing_values(df)
         
         # Outlier column
-        outliers_mod_columns=['sales','onpromotion','transactions']
+        outliers_mod_columns=['oil_price','transactions']
         
         df=self.remove_outliers_IQR(df,outliers_mod_columns)
         
         # Exported data
-        #df.to_csv('removed_outliers.csv')
+        # df.to_csv('removed_outliers.csv')
         
         # Rechecking datatypes 
         df=self.convert_columns_to_category(df,self.categorical_columns)
         
         
         # Saving data for time series training before map encoding
+        time_series_data_path=os.path.join(self.time_series_data_path,TIME_SERIES_DATA_FILE_NAME)
+        
+        save_data(file_path = time_series_data_path, data = df)
    
         # Map Encoding 
         df=self.map_categorical_values(df)
-        logging.info(f"top 5 columns of dataframe:- \n {df.head()}")
+        
+        
+      
+       
+       
+       
         return df
+       
+       
+       
        
     def data_wrangling(self,df:pd.DataFrame):
         try:
+
+            
             # Data Modification 
             data_modified=self.run_data_modification(df)
             
             logging.info(" Data Modification Done")
+            
+            
             logging.info("Column Data Types:")
             for column in data_modified.columns:
                 logging.info(f"Column: '{column}': {data_modified[column].dtype}")
+
+
+            
             return data_modified
+    
+        
         except Exception as e:
             raise CustomException(e,sys) from e
+       
+       
+        
+        
+        
+        
+        
         
     def fit(self,X,y=None):
             return self
+    
     
     def transform(self,X:pd.DataFrame,y=None):
         try:    
             data_modified = self.data_wrangling(X)
             col = self.col
+
             # Reindex the DataFrame columns according to the specified column sequence
             data_modified = data_modified.reindex(columns=col)
+
             #data_modified.to_csv("data_modified.csv", index=False)
             logging.info("Data Wrangling Done")
             arr = data_modified.values
@@ -306,6 +348,36 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
             return arr
         except Exception as e:
             raise CustomException(e,sys) from e
+        
+        
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
 
 class DataTransformation:
     
@@ -318,12 +390,20 @@ class DataTransformation:
             self.data_transformation_config = data_transformation_config
             self.data_ingestion_artifact = data_ingestion_artifact
             self.data_validation_artifact = data_validation_artifact
-                        
+            
+                                ############### Accesssing Column Labels #########################
+                                
+                                
+                                #           Schema.yaml -----> DataTransfomation 
+            
             # Schema File path 
             self.schema_file_path = self.data_validation_artifact.schema_file_path
             
             # Reading data in Schema 
             self.schema = read_yaml_file(file_path=self.schema_file_path)
+            
+            # Time series transaformed csv path 
+            self.time_series_data_path=self.data_transformation_config.time_series_data_file_path
             
             # Column data accessed from Schema.yaml
             self.target_column_name = self.schema[TARGET_COLUMN_KEY]
@@ -347,7 +427,8 @@ class DataTransformation:
                                                                             target_columns=self.target_column_name,
                                                                             date_column=self.date_column,
                                                                             all_column=self.col,
-                                                                            drop_columns=self.drop_columns))])
+                                                                            drop_columns=self.drop_columns,
+                                                                            time_series_data_path=self.time_series_data_path))])
             return feature_engineering
         except Exception as e:
             raise CustomException(e,sys) from e
@@ -500,10 +581,13 @@ class DataTransformation:
             save_object(file_path=os.path.join(ROOT_DIR,PIKLE_FOLDER_NAME_KEY,
                                  os.path.basename(preprocessing_object_file_path)),obj=preprocessing_obj)
             
+            time_series_data_file_path=os.path.join(self.time_series_data_path,TIME_SERIES_DATA_FILE_NAME)
+            
             data_transformation_artifact = DataTransformationArtifact(
             message="Data transformation successfull.",
             transformed_train_file_path = transformed_train_file_path,
             transformed_test_file_path = transformed_test_file_path,
+            time_series_data_file_path=time_series_data_file_path,
             preprocessed_object_file_path = preprocessing_object_file_path,
             feature_engineering_object_file_path = feature_engineering_object_file_path)
             

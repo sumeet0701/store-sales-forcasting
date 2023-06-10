@@ -1,12 +1,5 @@
 import sys
-from store_sales.constant.training_pipeline import constant_training_pipeline
-from store_sales.constant.training_pipeline import data_ingestion
-from store_sales.constant.training_pipeline import data_transformation
-from store_sales.constant.training_pipeline import data_validation
-from store_sales.constant.training_pipeline import model_trainer
-from store_sales.constant.training_pipeline import time_model_trainer
-from store_sales.constant.training_pipeline import time_data_transformation
-from store_sales.logger import logging
+from store_sales .logger import logging
 from store_sales.exception import CustomException
 from store_sales.entity.config_entity import *
 from store_sales.utils.utils import read_yaml_file
@@ -127,8 +120,15 @@ class Configuration:
 
             feature_engineering_object_file_path = os.path.join(data_transformation_artifact_dir,
                                 data_transformation_config[DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
-                                data_transformation_config[DATA_TRANSFORMATION_FEATURE_ENGINEERING_FILE_NAME_KEY])           
+                                data_transformation_config[DATA_TRANSFORMATION_FEATURE_ENGINEERING_FILE_NAME_KEY])
             
+            time_series_data_file_path=os.path.join(data_transformation_artifact_dir,
+                                data_transformation_config[DATA_TRANSFORMATION_DIR_NAME_KEY],
+                                data_transformation_config[DATA_TRANSFORMATION_TIME_SERIES_DATA_DIR])
+            
+            
+            
+
             transformed_train_dir = os.path.join(data_transformation_artifact_dir,
                                 data_transformation_config[DATA_TRANSFORMATION_DIR_NAME_KEY],
                                 data_transformation_config[DATA_TRANSFORMATION_TRAIN_DIR_NAME_KEY])
@@ -139,8 +139,20 @@ class Configuration:
 
             data_transformation_config = DataTransformationConfig(transformed_train_dir=transformed_train_dir,
                                                     transformed_test_dir=transformed_test_dir,
+                                                    time_series_data_file_path=time_series_data_file_path,
                                                     preprocessed_object_file_path=preprocessed_object_file_path,
                                                     feature_engineering_object_file_path=feature_engineering_object_file_path)
+            
+            
+            ### Folder Structure ####
+            # Artifact 
+                # data_Transformation 
+                    # Transformed File pAth
+                      
+                        
+                    # Preprocessor 
+
+            
             
             logging.info(f"Data Transformation Config: {data_transformation_config}")
             return data_transformation_config
@@ -155,7 +167,7 @@ class Configuration:
                                                             TIME_DATA_TRANSFORMATION_ARTIFACT_DIR, 
                                                             self.time_stamp)
 
-            data_transformation_config = self.config_info[DATA_TRANSFORMATION_CONFIG_KEY]
+            time_data_transformation_config = self.config_info[TIME_DATA_TRANSFORMATION_CONFIG_KEY]
 
             preprocessed_object_file_path = os.path.join(time_data_transformation_artifact_dir,
                                 data_transformation_config[TIME_DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
@@ -177,7 +189,11 @@ class Configuration:
                                                     time_transformed_test_dir=transformed_test_dir,
                                                     time_preprocessed_object_file_path=preprocessed_object_file_path,
                                                     time_feature_engineering_object_file_path=feature_engineering_object_file_path)
-        
+
+            logging.info(f"Time Data Transformation Config: {time_data_transformation_config}")
+            return time_data_transformation_config
+        except  Exception as e:
+            raise CustomException(e,sys) from e
         
     def get_model_trainer_config(self) -> ModelTrainerConfig:
         try:
