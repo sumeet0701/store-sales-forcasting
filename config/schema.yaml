@@ -1,5 +1,5 @@
 FileName: final_data.csv
-NumberOfColumns: 16
+NumberOfColumns: 21
 
 ColumnNames:
   date: object
@@ -12,12 +12,17 @@ ColumnNames:
   locale_name: object
   description: object
   transferred: bool
-  dcoilwtico: float64
+  oil_price: float64
   city: object
   state: object
   store_type: object
   cluster: int64
   transactions: float64
+  year: int64
+  month: int64
+  week: int64
+  quarter: int64
+  day_of_week: object
 
 numerical_columns:
 - store_nbr

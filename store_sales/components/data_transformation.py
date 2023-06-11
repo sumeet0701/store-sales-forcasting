@@ -154,7 +154,8 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
             logging.info("Missing ratio information:")
             for column, missing_ratio in na_df.iteritems():
                 logging.info(f"{column}: {missing_ratio:.2f}%")
-                
+            
+            logging.info(f"top 5 rows of data frame: \n {df.head()}")             
             
         else:
             logging.info("No missing values found in the dataframe.")
@@ -169,12 +170,13 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
             logging.info("'id' column not found. Skipping dropping operation.")
 
         logging.info("Dropping rows with null values...")
-        df.dropna(inplace=True)
+        #df.dropna(inplace=True)
 
         logging.info("Resetting DataFrame index...")
-        df.reset_index(drop=True, inplace=True)
+        #df.reset_index(drop=True, inplace=True)
 
         logging.info("Columns dropped, null values removed, and index reset.")
+        logging.info(f"Top 5 rows of df: \n {df.head()}")
 
         return df
     
@@ -186,7 +188,7 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         missing_values = df['oil_price'].isna().sum()
         logging.info(f"Number of missing values: {missing_values}")
 
-        logging.info("Forward-filling missing values in 'oil_price' column...")
+        logging.info("interpolate missing values in 'oil_price' column...")
         df['oil_price'].interpolate(method='linear', inplace=True)
 
                 # Verify if missing values have been filled

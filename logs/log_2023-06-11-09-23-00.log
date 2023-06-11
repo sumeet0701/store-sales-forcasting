@@ -1,0 +1,39 @@
+[2023-06-11 09:23:06,548] root - INFO - Training pipleine config: TrainingPipelineConfig(artifact_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact')
+[2023-06-11 09:23:06,549] root - INFO - Data Ingestion config: DataIngestionConfig(raw_data_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_ingestion\\2023-06-11-09-23-00\\raw_data', ingested_data_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_ingestion\\2023-06-11-09-23-00\\ingested_data')
+[2023-06-11 09:23:06,549] root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Data Ingestion log started.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+
+
+[2023-06-11 09:23:06,928] root - INFO - Data Ingestion Artifact
+[2023-06-11 09:23:06,929] root - INFO - File Path : C:\Users\Sumeet Maheshwari\Desktop\Store sales Forecasting (2)\Jup_Notebook\Merged_dataset\outlier_clean.csv
+[2023-06-11 09:23:06,929] root - INFO - File Name: final_data.csv
+[2023-06-11 09:23:06,929] root - INFO - File Ingested File Path: C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\Sales_Forecasting_Artifact\Artifact\data_ingestion\2023-06-11-09-23-00\raw_data\final_data.csv
+[2023-06-11 09:23:06,929] root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Data Validation log started.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+
+
+[2023-06-11 09:23:06,929] root - INFO - *****************Ingested data validation Started****************
+[2023-06-11 09:23:06,933] root - INFO - Validation Process Started
+[2023-06-11 09:23:06,934] root - INFO - Checking filename
+[2023-06-11 09:23:06,934] root - INFO - Checking check_column_names
+[2023-06-11 09:23:13,129] root - INFO - Checking missing_values_whole_columns
+[2023-06-11 09:23:19,727] root - INFO - Checking replacinig_null_values_with_null
+[2023-06-11 09:23:28,395] root - INFO - replacinig_null_values_with_null is sucessfully
+[2023-06-11 09:23:28,473] root - INFO - Train_set status|is Train filename validated?: False|is train column name validated?: True|whole missing columns?True
+[2023-06-11 09:23:28,473] root - INFO - Check yout Data! Validation Failed
+[2023-06-11 09:23:28,473] root - ERROR - 
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\pipeline\training_pipeline.py] at 
+                        try block line number: [71] execption block line number: [78]
+                        error message: [
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\pipeline\training_pipeline.py] at 
+                        try block line number: [50] execption block line number: [52]
+                        error message: [
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\components\data_validation.py] at 
+                        try block line number: [174] execption block line number: [193]
+                        error message: [
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\components\data_validation.py] at 
+                        try block line number: [112] execption block line number: [118]
+                        error message: [Check your data! Validation failed]]]]
+[2023-06-11 09:23:28,476] root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Data Validation log completed.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
