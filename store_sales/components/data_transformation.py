@@ -141,6 +141,7 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         df = df.rename(columns={"dcoilwtico": "oil_price"})
         
         logging.info(" Oil Price column renamed ")
+        logging.info(f"{df.head()}")
         
         return df
     
@@ -292,11 +293,7 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
    
         # Map Encoding 
         df=self.map_categorical_values(df)
-        
-        
-      
-       
-       
+        logging.info(f"{df.head()}")
        
         return df
        
