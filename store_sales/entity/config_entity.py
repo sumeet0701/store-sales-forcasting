@@ -40,3 +40,9 @@ ModelTrainerConfig = namedtuple("ModelTrainerConfig",["trained_model_file_path"]
 
 
 TrainingPipelineConfig = namedtuple("TrainingPipelineConfig",["artifact_dir"])
+
+ModelTrainerTIMEConfig = namedtuple("ModelTrainerConfig",[
+    "trained_model_file_path",
+    "time_Series_grouped_data",
+    "model_report",
+    "prediction_image"])
