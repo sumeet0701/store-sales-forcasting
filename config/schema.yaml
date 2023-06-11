@@ -1,5 +1,6 @@
 File_Name: final_data.csv
 
+
 columns:
   date: object
   store_nbr: int64
@@ -17,7 +18,6 @@ columns:
   store_type: object
   cluster: int64
   transactions: float64
-  
 
 numerical_columns:
 - store_nbr
@@ -51,15 +51,17 @@ date_columns:
 
 drop_columns:
 - transferred
-- locale
-- locale_name
-- description
-- city
-- state
+- year
+- month
+- week
+- quarter
+- day_of_week
 
-label_encoder_columns:
+
+
+label_encoder_colums:
 - holiday_type
-- store_type
+
 
 target_column:
 - sales

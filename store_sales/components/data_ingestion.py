@@ -14,6 +14,11 @@ from store_sales.entity.config_entity import DataIngestionConfig
 from store_sales.entity.artifact_entity import DataIngestionArtifact
 from sklearn.model_selection import train_test_split
 
+pd.options.mode.chained_assignment = None  # Disable warning for setting with copy
+# Set low_memory option to False
+pd.options.mode.use_inf_as_na = False
+
+
 class DataIngestion:
 
     def __init__(self, data_ingestion_config: DataIngestionConfig):

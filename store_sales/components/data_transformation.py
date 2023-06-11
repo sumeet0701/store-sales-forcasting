@@ -12,6 +12,10 @@ from store_sales.entity.artifact_entity import DataTransformationArtifact
 from store_sales.constant import *
 
 import pandas as pd
+pd.options.mode.chained_assignment = None  # Disable warning for setting with copy
+# Set low_memory option to False
+pd.options.mode.use_inf_as_na = False
+
 import numpy as np
 import sys 
 import re
@@ -86,17 +90,18 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
 
         return df
       
-      
+    
     def convert_columns_to_category(self,df, columns):
         for col in columns:
             df[col] = df[col].astype('category')
             logging.info(f"Column '{col}' converted to 'category' data type.")
         return df
+        
     
     def remove_special_chars_and_integers_from_unique_values(self,df, column_name):
         # Remove special characters and integers from unique values
-        df[column_name] = df[column_name].apply(lambda x: re.sub(r'[^a-zA-Z\s:]', '', x))
-        df[column_name] = df[column_name].apply(lambda x: re.sub(r'\d+', '', x))
+        df[column_name] = df[column_name].apply(lambda x: re.sub(r'[^a-zA-Z\s:]', '', str(x)))
+        df[column_name] = df[column_name].apply(lambda x: re.sub(r'\d+', '', str(x)))
         
         return df
     
@@ -181,22 +186,20 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         logging.info(f"Number of missing values: {missing_values}")
 
         logging.info("Forward-filling missing values in 'oil_price' column...")
-        df['oil_price'].fillna(method='ffill', inplace=True)
+        df['oil_price'].interpolate(method='linear', inplace=True)
 
-        logging.info("Backward-filling any remaining missing values in 'oil_price' column...")
-        df['oil_price'].fillna(method='bfill', inplace=True)
-
-        # Verify if missing values have been filled
+                # Verify if missing values have been filled
         missing_values_after = df['oil_price'].isna().sum()
         logging.info(f"Number of missing values after filling: {missing_values_after}")
 
         columns_missing = ['holiday_type', 'locale', 'locale_name', 'description', 'transferred']
+        logging.info(f"{df['holiday_type'].mode()}")
 
         for column in columns_missing:
             logging.info(f"Filling missing values in '{column}' column with mode...")
-            mode_value = df[column].mode().iloc[0]
-            df[column].fillna(mode_value, inplace=True)
-
+            if not df[column].empty:
+                mode_value = df[column].mode().iloc[0]
+                df[column].fillna(mode_value, inplace=True)
         logging.info("Missing values handled.")
         
         return df
@@ -245,7 +248,7 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         df= self.date_datatype(df)
         
         # Set categorical Columns to category 
-        df=self.convert_columns_to_category(df,self.categorical_columns)
+        #df=self.convert_columns_to_category(df,self.categorical_columns)
         
         # Removing special character from "Description"
         df=self.remove_special_chars_and_integers_from_unique_values(df,'description')
@@ -271,7 +274,7 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         df=self.handling_missing_values(df)
         
         # Outlier column
-        outliers_mod_columns=['oil_price','transactions']
+        outliers_mod_columns=['transactions']
         
         df=self.remove_outliers_IQR(df,outliers_mod_columns)
         
@@ -321,14 +324,7 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         
         except Exception as e:
             raise CustomException(e,sys) from e
-       
-       
-        
-        
-        
-        
-        
-        
+         
     def fit(self,X,y=None):
             return self
     
@@ -348,36 +344,6 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
             return arr
         except Exception as e:
             raise CustomException(e,sys) from e
-        
-        
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-
 
 class DataTransformation:
     
@@ -530,7 +496,7 @@ class DataTransformation:
             
             
             # Train and Test split 
-            X_train, X_test, y_train, y_test = self.split_train_test_data(input_feature_df, target_feature_df)
+            X_train, X_test, y_train, y_test = self.split_train_test_data(input_feature_df, target_feature_df, test_size= 0.2)
         
             
             logging.info(f" X_Train_Shape :{X_train.shape} Y_Train_Shape : {y_train.shape}")

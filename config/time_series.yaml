@@ -1,0 +1,22 @@
+date_column:
+ - date
+
+droping_unwanted_columns:
+  - locale
+  - locale_name
+  - description
+  - transferred
+  - city
+  - state
+
+label_encoder:
+  - holiday_type
+  - store_type
+  
+features_selected:
+ - sales
+ - holiday_type
+ - onpromotion
+ - store_type
+ - store_nbr
+

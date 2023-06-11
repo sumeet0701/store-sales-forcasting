@@ -23,6 +23,10 @@ from evidently.model_profile.sections import DataDriftProfileSection
 from evidently.dashboard import Dashboard
 from evidently.dashboard.tabs import DataDriftTab
 
+pd.options.mode.chained_assignment = None  # Disable warning for setting with copy
+# Set low_memory option to False
+pd.options.mode.use_inf_as_na = False
+
 
 class DataValidation:
     def __init__(self,data_validation_config:DataValidationConfig,
