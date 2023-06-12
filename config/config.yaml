@@ -46,3 +46,14 @@ model_trainer_config:
   model_file_name: model.pkl
   model_config_dir: config
   model_config_file_name: model.yaml
+  prediction_rows: 100
+
+
+model_trainer_time_config:
+  trained_model_dir: trained_time_model
+  model_file_name: model.pkl
+  model_config_dir: config
+  model_report_file_name: model.yaml
+  prediction_image: prediction.png
+  time_model_file_name: 'grouped_data.csv'
+  prediction_rows: 100

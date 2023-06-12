@@ -21,6 +21,7 @@ mean_columns:
 - oil_price
 label_encode:
 - holiday_type
+- store_type
 target_column:
 - sales
 exog_columns:

@@ -1,28 +1,26 @@
-
+import shutil
+import pickle
 from store_sales.entity.config_entity import ModelTrainerTIMEConfig
 from store_sales.entity.artifact_entity import DataTransformationArtifact
-from store_sales.entity.artifact_entity import ModelTrainerArtifact
-from store_sales.entity.artifact_entity import ModelTrainerTIMEArtifact
-from store_sales.logger import logging
-from store_sales.exception import CustomException
-from store_sales.utils.utils import read_yaml_file 
-from store_sales.utils.utils import save_image
+from store_sales.entity.artifact_entity import ModelTrainerArtifact,ModelTrainerTIMEArtifact
 from store_sales.constant import *
-
-
 import sys
 import os
+from store_sales.logger import logging
+from store_sales.exception import CustomException
 import pandas as pd
 from sklearn.base import TransformerMixin
 from sklearn.pipeline import Pipeline
 from statsmodels.tsa.statespace.sarimax import SARIMAX
-import yaml
+from store_sales.utils.utils import read_yaml_file,save_image,save_object
 import matplotlib.pyplot as plt
 import logging
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from prophet import Prophet
 import numpy as np
+import re   
+import yaml
 
 class LabelEncoderTransformer(TransformerMixin):
     def fit(self, X, y=None):
@@ -58,7 +56,10 @@ import pandas as pd
 def group_data(df, group_columns, sum_columns, mean_columns):
     # Group by the specified columns and calculate the sum and mean
     df = df.groupby(group_columns)[sum_columns].sum()
+    
     df[mean_columns] = df.groupby(group_columns)[mean_columns].mean()
+
+
     return df
 
 
@@ -95,14 +96,10 @@ class SarimaModelTrainer:
     def fit_sarima(self, df, target_column, exog_columns=None, order=None, seasonal_order=None, trend='c'):
         # Fit SARIMA model based on helper plots and print the summary.
         data = df[target_column]
+        exog_columns=['onpromotion','holiday_type','oil_price']
         exog = df[exog_columns]
         
         logging.info(f" Exog Columns : {exog.columns}")
-
-        
-        # Specify bounds for the parameters
-        bounds = [(None, None), (1, None), (1, None), (0, None), (0, None), (0, None)]
-
 
         sarima_model = SARIMAX(data, exog=exog,
                                order=order,
@@ -121,15 +118,26 @@ class SarimaModelTrainer:
         print(f"Summary written to {file_location}")
 
 
-    def forecast_and_save(self,df:pd.DataFrame, target_column, model, exog_columns=None, num_days=70):
-        last_70_days = df.iloc[-num_days:]
-
+    def forecast_and_predict(self, df, target_column, model, exog_columns=None, num_days=70):
+        last_60_days = df.iloc[-num_days:]
+        exog_columns = ['onpromotion', 'holiday_type', 'oil_price']
         # Extract the exogenous variables for the last 60 days
-        exog_data = last_70_days[exog_columns]
+        exog_data = last_60_days[exog_columns]
 
-        forecast = model.get_prediction(start=last_70_days.index[0], end=last_70_days.index[-1], exog=exog_data)
+        forecast = model.get_prediction(start=last_60_days.index[0], end=last_60_days.index[-1], exog=exog_data)
         predicted_values = forecast.predicted_mean
 
+        # Calculating residuals
+        actual_values = df[target_column].values[-num_days:]
+        predicted_values_numpy = predicted_values.values  # Convert predicted_values to numpy array
+        residuals = actual_values - predicted_values_numpy
+
+        # Calculate mean squared error
+        mse = np.mean(residuals ** 2)
+
+        return predicted_values, mse
+    
+    def save_image(self,df, target_column, predicted_values, num_days=70, image_name='Sarima_exog.png'):
         # Plotting actual and predicted values for the last few rows
         plt.plot(df[target_column].tail(num_days), label='Actual')
         plt.plot(predicted_values.tail(num_days).index, predicted_values.tail(num_days), label='Forecast')
@@ -139,20 +147,14 @@ class SarimaModelTrainer:
         plt.xticks(rotation=90)
 
         # Save the plot as an image
-        image_name = 'Sarima_exog.png'  # Change the file name and path as desired
-        plot_image_path = os.path.join(os.getcwd(), image_name)
-        plt.savefig(plot_image_path)  ## Save image 
+        os.makedirs(self.image_directory,exist_ok=True)
+        plot_image_path = os.path.join(self.image_directory, image_name)
+        plt.savefig(plot_image_path)
 
         # Close the plot to release memory
         plt.close()
 
-        # Calculating residuals
-        residuals = df[target_column].tail(num_days) - predicted_values.tail(num_days)
-
-        # Calculate mean squared error
-        mse = np.mean(residuals**2)
-
-        return mse
+        return plot_image_path
 
     def train_model(self, df):
         
@@ -164,7 +166,7 @@ class SarimaModelTrainer:
 
         # Perform auto ARIMA to get the best parameters
         #order, seasonal_order = self.fit_auto_arima(df, target_column, exog_columns)
-        order=(1, 0, 1)
+        order=(2, 0, 1)
         seasonal_order=(0, 1, 1, 7)
         logging.info("Model trained best Parameters:")
         logging.info(f"Order: {order}")
@@ -177,10 +179,14 @@ class SarimaModelTrainer:
         #self.get_sarima_summary(model, self.model_report_path)
 
         # Save prediction image and get predicted values and residuals
-        mse = self.forecast_and_save(df, target_column, Sarima_model_fit, exog_columns)
-
-        # Return predicted values and residuals
-        return  mse
+        predicted_values, mse = self.forecast_and_predict(df, target_column, Sarima_model_fit, exog_columns)
+        
+        # Plot and save Image of Forecast 
+        plot_image_path=self.save_image(df, target_column, predicted_values, num_days=70, image_name='Sarima_exog.png')
+        
+        
+        
+        return  mse,Sarima_model_fit,plot_image_path
 
 
 
@@ -229,15 +235,15 @@ class ProphetModelTrainer:
     def forecast_and_plot(self):
         if self.model is None or self.test_data is None:
             raise ValueError("Prophet model is not fitted. Call 'fit_prophet_with_plots' first.")
-        
-        forecast_and_plot(self.model,self.test_data)
+
+        forecast_and_plot(self.model, self.test_data)
 
 import matplotlib.pyplot as plt
 from prophet import Prophet
 
 class ProphetModel_Exog:
     def __init__(self, exog_columns,image_directory):
-        self.exog_columns = exog_columns
+        self.exog_columns = exog_columns,
         self.image_directory=image_directory
     
     def prepare_data(self, df: pd.DataFrame):
@@ -249,8 +255,11 @@ class ProphetModel_Exog:
         
 
         exog_columns = self.exog_columns
+        exog_columns=['onpromotion','holiday_type','oil_price','store_type','store_nbr']
         # Select the desired columns
-        df = df[['ds','y'] + exog_columns]
+        df = df[['ds','y','onpromotion','holiday_type','oil_price','store_type','store_nbr']]
+        
+        df.to_csv('prepare_Data.csv')
 
         return df
 
@@ -263,39 +272,38 @@ class ProphetModel_Exog:
 
         exog_columns=self.exog_columns
         logging.info(f" Adding exlog columns to the model : {exog_columns}")
+        exog_columns=['onpromotion','holiday_type','oil_price','store_type','store_nbr']
         # Add exogenous regressors
         for column in exog_columns:
             m.add_regressor(column)
 
         # Fit the model with data
         m.fit(data)
+        data.to_csv('after_fit.csv')
         
-        logging.info(f" Data fit with columns : {data.columns}")
+        logging.info(f" Data fit Prophet_Exog_data with columns : {data.columns}")
 
         return m,data
 
     def make_prophet_prediction(self, model, data):
         # Create future dataframe
         future = model.make_future_dataframe(periods=0)
-
+        exog_columns=['onpromotion','holiday_type','oil_price','store_type','store_nbr']
         # Add exogenous variables to the future dataframe
-        for column in self.exog_columns:
+        for column in exog_columns:
             future[column] = data[column]
             
-        future.to_csv('dataframe_will_prediction.csv')
+        #future.to_csv('dataframe_will_prediction.csv')
 
         # Make prediction
         forecast_df = model.predict(future)
-        
-        
 
         return forecast_df
 
-        return forecast_predictions
     def save_forecast_plot(self, forecast_df, actual_df):
         # Select the necessary columns for forecast and actual values
-        forecast_tail = forecast_df[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail(80)
-        actual_values = actual_df['y'].tail(80)
+        forecast_tail = forecast_df[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail(60)
+        actual_values = actual_df['y'].tail(60)
 
         # Plot the forecasted values and actual values
         plt.figure(figsize=(10, 6))
@@ -317,7 +325,7 @@ class ProphetModel_Exog:
         # Calculate mean squared error
         mse = np.mean((actual_values - forecast_tail['yhat'])**2)
 
-        return mse
+        return mse,plot_image_path
         
     def run_prophet_with_exog(self,df:pd.DataFrame):
         
@@ -332,12 +340,12 @@ class ProphetModel_Exog:
         forecast_df = self.make_prophet_prediction(model,data)
         
         
-        mse=self.save_forecast_plot(forecast_df,data)
+        mse,plot_image_path=self.save_forecast_plot(forecast_df,data)
         
   
 
         # Return the image path
-        return mse
+        return mse,model,plot_image_path
 
  
         
@@ -355,6 +363,7 @@ class ModelTrainer_time:
             # Image save file location 
             self.image_directory=self.model_trainer_config.prediction_image
             
+            #
             
             
             
@@ -376,13 +385,64 @@ class ModelTrainer_time:
             self.sum_column =  self.time_config_data[SUM_COLUMN]
             self.mean_column=self.time_config_data[MEAN_COLUMN]
             
+            # Dropping columns 
+            self.drop_columns=self.time_config_data[DROP_COLUMNS]
             
-            
+            # Saved file paths 
+            self.saved_model_path=self.model_trainer_config.saved_model_file_path
+            self.saved_model_report_path=self.model_trainer_config.saved_report_file_path
+            self.saved_model_plot=self.model_trainer_config.saved_model_plot
             
         except Exception as e:
             raise CustomException(e, sys)
         
+    def select_best_model(self,model1, model2, model1_mse, model2_mse, prediction_plot1, prediction_plot2):
+        # Compare the MSE values
+        model1_mse = float(np.mean(model1_mse))
+        model2_mse = float(np.mean(model2_mse))
+
+        if model1_mse < model2_mse:
+            best_model = model1
+            best_model_mse = model1_mse
+            best_prediction_plot = prediction_plot1
+        else:
+            best_model = model2
+            best_model_mse = model2_mse
+            best_prediction_plot = prediction_plot2
+
+        return best_model, best_model_mse, best_prediction_plot  
+    
+    def dump_model_info(self, mse, model, file_path):
+        model_name = re.search(r"([^.]+)$", model.__class__.__name__).group(1)
+        mse_float = float(np.mean(mse))
+        model_info = {
+            'mse': mse_float,
+            'model_name': model_name
+        }
+
+        # Save the model as a pickle object
+        model_file_path=self.model_trainer_config.trained_model_file_path
+        with open(model_file_path, 'wb') as file:
+            pickle.dump(model, file)
         
+        # Save the model info as YAML
+        model_report_file_path = self.model_report_path
+        with open(model_report_file_path, 'w') as file:
+            yaml.dump(model_info, file)
+
+        return model_report_file_path
+    def copy_image(self,source_path, destination_path):
+        # Extract the file name from the source path
+        file_name = os.path.basename(source_path)
+
+        # Construct the destination path with the file name
+        destination_file_path = os.path.join(destination_path, file_name)
+
+        # Copy the image file to the destination directory
+        shutil.copyfile(source_path, destination_file_path)
+
+        return destination_file_path
+    
     def initiate_model_training(self) -> ModelTrainerArtifact:
         try:
             logging.info("Finding Feature engineered data ")
@@ -392,7 +452,7 @@ class ModelTrainer_time:
             logging.info("Accessing Feature Trained csv")
             data_df:pd.DataFrame= pd.read_csv(Data_file_path)
             
-            data_df.to_csv('before_time_trianing.csv')
+            data_df.to_csv('before_time_training.csv')
             
             target_column_name = 'sales'
            # logging.info("Splitting Input features and Target Feature")
@@ -405,8 +465,10 @@ class ModelTrainer_time:
             data_df.set_index('date', inplace=True)
             
             # Dropping unncessry columns 
-            data_df.drop(['family','locale','locale_name','description','city', 'state','store_nbr','store_type','transferred',
-                          'cluster', 'transactions'],axis=1,inplace=True)
+            drop_columns=self.drop_columns
+            data_df.drop(drop_columns,axis=1,inplace=True)
+            
+            logging.info(f" Columns Dropped : ")
             
             logging.info(f" Columns : {data_df.columns}")
 
@@ -423,7 +485,13 @@ class ModelTrainer_time:
             # Data used for time series prediciton 
             os.makedirs(self.model_trainer_config.time_Series_grouped_data,exist_ok=True)
             grouped_data_file_path =os.path.join(self.model_trainer_config.time_Series_grouped_data,self.time_config_data[TIME_SERIES_DATA_FILE_NAME])
-            df_gp=group_data(df, group_columns, sum_columns, mean_columns)
+            
+            #df_gp=group_data(df, group_columns, sum_columns, mean_columns)
+            df_gp = df.groupby(group_columns)[sum_columns].sum()
+
+            # Calculate the mean of 'oil_price' within each date group
+            df_gp[mean_columns] = df.groupby(group_columns)[mean_columns].mean()
+            
             df_gp.to_csv(grouped_data_file_path)
             
             
@@ -434,9 +502,9 @@ class ModelTrainer_time:
             logging.info("Starting SARIMA Model Training")
             sarima_model=SarimaModelTrainer(model_report_path=self.model_report_path,
                                             target_column=self.target_column,
-                                            exog_columns=self.exog_columns,
+                                           exog_columns=self.exog_columns,
                                             image_directory=self.image_directory)
-            mse_Sarima=sarima_model.train_model(df_gp)
+            mse_Sarima,Sarima_exog_model,plot_image_path_sarima=sarima_model.train_model(df_gp)
             
             logging.info(" Sarima Model training completed")
 
@@ -444,7 +512,7 @@ class ModelTrainer_time:
             logging.info(f" Mean Sqaured Error :{mse_Sarima}")
             
             
-            # Training Prophet - without exog 
+             #Training Prophet - without exog 
             
             
             
@@ -455,7 +523,7 @@ class ModelTrainer_time:
             logging.info("Starting Prophet Model Training")
             
             prophet_exog=ProphetModel_Exog(exog_columns=self.exog_columns,image_directory=self.image_directory)
-            mse_prophet_exog=prophet_exog.run_prophet_with_exog(df_gp)
+            mse_prophet_exog,Prophet_exog_model,plot_image_path_prohet_exog=prophet_exog.run_prophet_with_exog(df_gp)
             
             logging.info(" Prophet_Exog Model training completed")
 
@@ -463,14 +531,37 @@ class ModelTrainer_time:
             logging.info(f" Mean Sqaured Error :{mse_prophet_exog}")
             logging.info("Prophet training completed")
             
-            sys.exit()
+            best_model,mse_score,best_plot=self.select_best_model(Sarima_exog_model,Prophet_exog_model,
+                                                        mse_Sarima,mse_prophet_exog,
+                                                        plot_image_path_sarima,plot_image_path_prohet_exog)
             
-            #model_trainer_artifact = ModelTrainerTIMEArtifact(model_report=,
-             #                                             prediction_image=    
-             #                                             message="Model Training Done!!",
-              #                                            trained_model_object_file_path=trained_model_object_file_path)
             
-           # logging.info(f"Model Trainer Artifact: {model_trainer_artifact}")
+            # Best plot location  
+            logging.info(f"best image plot location : {best_plot}")
+            prediction_image=self.model_trainer_config.best_model_png
+            self.copy_image(source_path=best_plot,destination_path=prediction_image)
+            
+            # Saving Model
+            trained_model_object_file_path=self.model_trainer_config.trained_model_file_path
+            save_object(file_path=trained_model_object_file_path,obj=best_model)
+            
+            # Saving Report - Best model 
+            model_report_path=self.dump_model_info(model=best_model,mse=mse_score,file_path=self.model_report_path)
+            
+            # Model name 
+            best_model_name = re.search(r"([^.]+)$", best_model.__class__.__name__).group(1)
+            
+            model_trainer_artifact = ModelTrainerTIMEArtifact(model_report=model_report_path,
+                                                            prediction_image=prediction_image,
+                                                            message="Model_Training_Done!!",
+                                                            trained_model_object_file_path=trained_model_object_file_path,
+                                                            saved_report_file_path=self.saved_model_report_path,
+                                                            saved_model_file_path=self.saved_model_path,
+                                                            mse_score=float(np.mean(mse_score)),
+                                                            best_model_name=best_model_name,
+                                                            saved_model_plot=self.saved_model_plot)
+            
+            logging.info(f"Model Trainer Artifact: {model_trainer_artifact}")
             return model_trainer_artifact
 
 

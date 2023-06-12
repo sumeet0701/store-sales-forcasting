@@ -181,8 +181,44 @@ class Configuration:
             trained_model_file_path = os.path.join(model_trainer_artifact_dir,
                                                    model_trainer_config[MODEL_TRAINER_TRAINED_MODEL_DIR],
                                                    model_trainer_config[MODEL_TRAINER_TRAINED_MODEL_FILE_NAME_KEY])
- 
-            model_trainer_config = ModelTrainerConfig(trained_model_file_path=trained_model_file_path)
+            
+            time_Series_grouped_data = os.path.join(model_trainer_artifact_dir,
+                                                   model_trainer_config[MODEL_TRAINER_TRAINED_MODEL_DIR],
+                                                   model_trainer_config[TIME_SERIES_DATA_FILE_NAME])
+            
+            
+            selected_model_report=os.path.join(model_trainer_artifact_dir,
+                                                   model_trainer_config[MODEL_TRAINER_TRAINED_MODEL_DIR],model_trainer_config[MODEL_REPORT_FILE_NAME])
+
+            
+            prediction_graph_image=os.path.join(model_trainer_artifact_dir,
+                                                   model_trainer_config[MODEL_TRAINER_TRAINED_MODEL_DIR],model_trainer_config[PREDICTION_IMAGE])
+            
+            best_model_png=os.path.join(model_trainer_artifact_dir,
+                                                   model_trainer_config[MODEL_TRAINER_TRAINED_MODEL_DIR])
+            
+            # Saved Model Directory 
+            saved_model_file_path=os.path.join(ROOT_DIR,SAVED_MODEL_DIRECTORY,MODEL_FILE_NAME)
+            
+            saved_report_file_path=os.path.join(ROOT_DIR,SAVED_MODEL_DIRECTORY,MODEL_REPORT_FILE)
+
+            saved_model_plot=os.path.join(ROOT_DIR,SAVED_MODEL_DIRECTORY)
+            
+            
+            model_trainer_config = ModelTrainerTIMEConfig(
+                trained_model_file_path=trained_model_file_path,
+                model_report=selected_model_report,
+                time_Series_grouped_data=time_Series_grouped_data,
+                prediction_image=prediction_graph_image,
+                best_model_png=best_model_png,
+                saved_model_file_path=saved_model_file_path,
+                saved_report_file_path=saved_report_file_path,
+                saved_model_plot=saved_model_plot)
+                                                    
+            
+            
+            
+            
             logging.info(f"Model Trainer Config : {model_trainer_config}")
             return model_trainer_config
         except Exception as e:

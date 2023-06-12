@@ -43,4 +43,11 @@ ModelTrainerTIMEArtifact = namedtuple("ModelTrainerArtifact",[
     "message",
     "trained_model_object_file_path",
     "model_report",
-    "prediction_image"])
+    "prediction_image",
+    "mse_score",
+    "saved_report_file_path",
+  "saved_model_file_path",
+  "best_model_name",
+    "saved_model_plot"])
+
+ModelPusherArtifact=namedtuple("ModelPusherArtifact",["message"])

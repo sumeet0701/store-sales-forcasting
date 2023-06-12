@@ -1,0 +1,50 @@
+[2023-06-12 18:32:40,442] root - INFO - Training pipleine config: TrainingPipelineConfig(artifact_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact')
+[2023-06-12 18:32:40,443] root - INFO - Data Ingestion config: DataIngestionConfig(raw_data_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_ingestion\\2023-06-12-18-32-30\\raw_data', ingested_data_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_ingestion\\2023-06-12-18-32-30\\ingested_data')
+[2023-06-12 18:32:40,444] root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Data Ingestion log started.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+
+
+[2023-06-12 18:32:40,994] root - INFO - Data Ingestion Artifact
+[2023-06-12 18:32:40,994] root - INFO - File Path : C:\Users\Sumeet Maheshwari\Desktop\Store sales Forecasting (2)\Jup_Notebook\Merged_dataset\outlier_clean.csv
+[2023-06-12 18:32:40,995] root - INFO - File Name: final_data.csv
+[2023-06-12 18:32:40,995] root - INFO - File Ingested File Path: C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\Sales_Forecasting_Artifact\Artifact\data_ingestion\2023-06-12-18-32-30\raw_data\final_data.csv
+[2023-06-12 18:32:40,995] root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Data Validation log started.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+
+
+[2023-06-12 18:32:40,995] root - INFO - *****************Ingested data validation Started****************
+[2023-06-12 18:32:41,005] root - INFO - Validation Process Started
+[2023-06-12 18:32:41,005] root - INFO - Checking filename
+[2023-06-12 18:32:41,006] root - INFO - Checking check_column_names
+[2023-06-12 18:32:48,625] root - INFO - Checking missing_values_whole_columns
+[2023-06-12 18:32:56,427] root - INFO - Checking replacinig_null_values_with_null
+[2023-06-12 18:33:07,706] root - INFO - replacinig_null_values_with_null is sucessfully
+[2023-06-12 18:33:07,845] root - INFO - Train_set status|is Train filename validated?: True|is train column name validated?: True|whole missing columns?True
+[2023-06-12 18:33:08,120] root - INFO - Exported validated  dataset to file: [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\Sales_Forecasting_Artifact\Artifact\data_validation\2023-06-12-18-32-30\validated_data]
+[2023-06-12 18:33:08,120] root - INFO - Checking for Data Drift
+[2023-06-12 18:33:08,120] root - INFO - Generating data drift report.json file
+[2023-06-12 18:34:08,868] root - INFO - Report.json file generation successful!!
+[2023-06-12 18:34:08,931] root - INFO - Generating data drift report.html page
+[2023-06-12 18:35:25,931] root - INFO - Report.html page generation successful!!
+[2023-06-12 18:35:26,033] root - INFO - Data validation artifact: DataValidationArtifact(schema_file_path='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\config\\schema.yaml', report_file_path='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_validation\\2023-06-12-18-32-30\\report.json', report_page_file_path='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_validation\\2023-06-12-18-32-30\\report.html', validated_file_path='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_validation\\2023-06-12-18-32-30\\validated_data', message='Validated')
+[2023-06-12 18:35:26,033] root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Data Validation log completed.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+[2023-06-12 18:35:26,034] root - INFO - Data Transformation Config: DataTransformationConfig(transformed_train_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_transformation\\2023-06-12-18-32-30\\transformed_data\\train', transformed_test_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_transformation\\2023-06-12-18-32-30\\transformed_data\\test', time_series_data_file_path='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_transformation\\2023-06-12-18-32-30\\transformed_data\\time_series_data', preprocessed_object_file_path='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_transformation\\2023-06-12-18-32-30\\preprocessed\\preprocessed.pkl', feature_engineering_object_file_path='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_transformation\\2023-06-12-18-32-30\\preprocessed\\feat_eng.pkl')
+[2023-06-12 18:35:26,034] root - INFO - 
+******************** Data Transformation log started ********************
+
+
+[2023-06-12 18:35:26,039] root - ERROR - 
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\pipeline\training_pipeline.py] at 
+                        try block line number: [91] execption block line number: [98]
+                        error message: [
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\pipeline\training_pipeline.py] at 
+                        try block line number: [58] execption block line number: [65]
+                        error message: [
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\components\data_transformation.py] at 
+                        try block line number: [384] execption block line number: [388]
+                        error message: [name 'HANDLING_CATEGORICAL_COLUMN' is not defined]]]
+[2023-06-12 18:35:26,043] root - INFO - 
+******************** Data Transformation log completed ********************
+
+
