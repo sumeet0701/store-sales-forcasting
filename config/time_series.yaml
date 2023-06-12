@@ -1,6 +1,5 @@
 date_column:
  - date
-
 droping_unwanted_columns:
   - locale
   - locale_name
@@ -8,11 +7,9 @@ droping_unwanted_columns:
   - transferred
   - city
   - state
-
 label_encoder:
   - holiday_type
   - store_type
-  
 features_selected:
  - sales
  - holiday_type

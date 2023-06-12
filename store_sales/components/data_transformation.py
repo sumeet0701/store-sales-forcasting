@@ -29,7 +29,9 @@ from sklearn.preprocessing import RobustScaler
 
 class Feature_Engineering(BaseEstimator, TransformerMixin):
     
-    def __init__(self,numerical_columns,categorical_columns,target_columns,drop_columns,date_column,all_column,
+    def __init__(self,numerical_columns,categorical_columns,
+                 target_columns,drop_columns,date_column,
+                 all_column,handling_categoical_columns,
                  time_series_data_path):
         
         """
@@ -48,8 +50,9 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         self.categorical_columns = categorical_columns
         self.target_columns = target_columns
         self.date_column=date_column
-        self.columns_to_drop = drop_columns
+        self.columns_drop = drop_columns
         self.col=all_column
+        self.handling_categoical_columns = handling_categoical_columns
         self.time_series_data_path=time_series_data_path
 
         
@@ -66,7 +69,8 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
     
     def drop_columns(self,df: pd.DataFrame):
         try:
-            fe_drop = ['year', 'month', 'week', 'quarter', 'day_of_week']
+            fe_drop = ['year', 'month', 'week', 'quarter', 'day_of_week',
+            'locale','locale_name','description','city','state','transferred']
             
             columns_to_drop = [column for column in fe_drop if column in df.columns]
             columns_not_found = [column for column in fe_drop if column not in df.columns]
@@ -240,6 +244,12 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
             logging.info(f"Column: '{column}', Unique Values: {unique_values}")
             
         return df
+    
+    def droping_unwanted_columns(self,df:pd.DataFrame):
+        logging.info("Dropping unwanted columns form dataframe")
+        columns = ['locale','locale_name','description','city','state','transferred']
+        df = df.drop(columns=columns)
+        return df
 
     
     def run_data_modification(self,df:pd.DataFrame):
@@ -254,11 +264,11 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         #df=self.convert_columns_to_category(df,self.categorical_columns)
         
         # Removing special character from "Description"
-        df=self.remove_special_chars_and_integers_from_unique_values(df,'description')
+        #df=self.remove_special_chars_and_integers_from_unique_values(df,'description')
         
         # Replace low percenatages unique values 
-        df=self.replace_low_percentages(df,'locale_name',0.5)
-        df=self.replace_low_percentages(df,'description',0.5)
+        #df=self.replace_low_percentages(df,'locale_name',0.5)
+        #df=self.replace_low_percentages(df,'description',0.5)
         
         # renaming Oil_Price
         df=self.renaming_oil_price(df)
@@ -277,17 +287,18 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
         df=self.handling_missing_values(df)
         
         # Outlier column
-        outliers_mod_columns=['transactions']
+        #outliers_mod_columns=['transactions']
         
-        df=self.remove_outliers_IQR(df,outliers_mod_columns)
+        #df=self.remove_outliers_IQR(df,outliers_mod_columns)
         
         # Exported data
         # df.to_csv('removed_outliers.csv')
         
         # Rechecking datatypes 
         df=self.convert_columns_to_category(df,self.categorical_columns)
-        
-        
+
+        # dropping unwanted columns
+        df = self.droping_unwanted_columns(df)   
         # Saving data for time series training before map encoding
         time_series_data_path=os.path.join(self.time_series_data_path,TIME_SERIES_DATA_FILE_NAME)
         
@@ -315,24 +326,17 @@ class Feature_Engineering(BaseEstimator, TransformerMixin):
             logging.info("Column Data Types:")
             for column in data_modified.columns:
                 logging.info(f"Column: '{column}': {data_modified[column].dtype}")
-
-
-            
             return data_modified
-    
-        
         except Exception as e:
             raise CustomException(e,sys) from e
          
     def fit(self,X,y=None):
             return self
     
-    
     def transform(self,X:pd.DataFrame,y=None):
         try:    
             data_modified = self.data_wrangling(X)
             col = self.col
-
             # Reindex the DataFrame columns according to the specified column sequence
             data_modified = data_modified.reindex(columns=col)
 
@@ -377,7 +381,7 @@ class DataTransformation:
             self.date_column=self.schema[DATE_COLUMN]
             
             self.drop_columns=self.schema[DROP_COLUMN_KEY]
-            
+            self.handling_categoical_columns=self.schema[HANDLING_CATEGORICAL_COLUMN]
             self.col=self.numerical_column_without_target+self.categorical_columns+self.date_column+self.target_column_name
                                 ########################################################################
         except Exception as e:
@@ -393,6 +397,7 @@ class DataTransformation:
                                                                             date_column=self.date_column,
                                                                             all_column=self.col,
                                                                             drop_columns=self.drop_columns,
+                                                                            handling_categoical_columns = self.handling_categoical_columns,
                                                                             time_series_data_path=self.time_series_data_path))])
             return feature_engineering
         except Exception as e:
@@ -408,7 +413,7 @@ class DataTransformation:
             logging.info('Creating Data Transformer Object')
             
 
-            numerical_columns = self.numerical_column_without_target+self.categorical_columns
+            numerical_columns = self.numerical_column_without_target+self.handling_categoical_columns
 
             # Define transformers for numerical and categorical columns
             num_transformer = Pipeline(steps=[
@@ -450,6 +455,7 @@ class DataTransformation:
             target_column_name = self.target_column_name
             numerical_columns_without_target = self.numerical_column_without_target
             categorical_columns = self.categorical_columns
+            handling_categorical_columns = self.handling_categoical_columns
             date_column=self.date_column
                         
             # Log column information
@@ -470,10 +476,17 @@ class DataTransformation:
             # Feature Engineering 
             logging.info(f"Obtaining feature engineering object.")
             fe_obj = self.get_feature_engineering_object()
-            
+            #logging.info(f"Feature engineering object{fe_obj.shape}")
+
+            logging.info(f"{type(fe_obj)}") 
+
+            logging.info(f"Feature engineering object droping unwanted columns")
+            #unwanted_columns = ['locale', 'locale_name', 'description','city', 'state','transferred']
+            #fe_obj.drop()
             logging.info(f"Applying feature engineering object on training dataframe and testing dataframe")
             logging.info(">>>" * 20 + " Training data " + "<<<" * 20)
             logging.info(f"Feature Enineering - Train Data ")
+
             feature_eng_arr = fe_obj.fit_transform(file_data)
             
             # Converting featured engineered array into dataframe
@@ -483,7 +496,7 @@ class DataTransformation:
             #logging.info(f"Columns for Feature Engineering : {col}")
             feature_eng_df = pd.DataFrame(feature_eng_arr,columns=col)
             logging.info(f"Feature Engineering - Train Completed")
-            
+            logging.info(f"{feature_eng_df.columns}")
             #feature_eng_df.to_csv('feature_eng_df.csv')
             
             
@@ -491,7 +504,7 @@ class DataTransformation:
             target_column_name=target_column_name
 
             target_feature_df = feature_eng_df[target_column_name]
-            input_feature_df = feature_eng_df.drop(columns = ['sales','date'],axis = 1)
+            input_feature_df = feature_eng_df.drop(columns = ['sales','date','locale', 'locale_name', 'description','city', 'state','transferred'],axis = 1)
             
             
             # Train and Test split 
@@ -513,7 +526,7 @@ class DataTransformation:
             train_arr = preprocessing_obj.fit_transform(X_train)
             test_arr = preprocessing_obj.transform(X_test)
         
-            col=numerical_columns_without_target+categorical_columns
+            col=numerical_columns_without_target + handling_categorical_columns
             transformed_train_df = pd.DataFrame(np.c_[train_arr,np.array(y_train)],columns=col+target_column_name)
             transformed_test_df = pd.DataFrame(np.c_[test_arr,np.array(y_test)],columns=col+target_column_name)
            

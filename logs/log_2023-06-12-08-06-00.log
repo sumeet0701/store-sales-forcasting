@@ -1,0 +1,129 @@
+[2023-06-12 08:06:06,143] root - INFO - Training pipleine config: TrainingPipelineConfig(artifact_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact')
+[2023-06-12 08:06:06,143] root - INFO - Data Ingestion config: DataIngestionConfig(raw_data_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_ingestion\\2023-06-12-08-06-00\\raw_data', ingested_data_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_ingestion\\2023-06-12-08-06-00\\ingested_data')
+[2023-06-12 08:06:06,143] root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Data Ingestion log started.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+
+
+[2023-06-12 08:06:06,539] root - INFO - Data Ingestion Artifact
+[2023-06-12 08:06:06,539] root - INFO - File Path : C:\Users\Sumeet Maheshwari\Desktop\Store sales Forecasting (2)\Jup_Notebook\Merged_dataset\outlier_clean.csv
+[2023-06-12 08:06:06,540] root - INFO - File Name: final_data.csv
+[2023-06-12 08:06:06,540] root - INFO - File Ingested File Path: C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\Sales_Forecasting_Artifact\Artifact\data_ingestion\2023-06-12-08-06-00\raw_data\final_data.csv
+[2023-06-12 08:06:06,540] root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Data Validation log started.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+
+
+[2023-06-12 08:06:06,540] root - INFO - *****************Ingested data validation Started****************
+[2023-06-12 08:06:06,552] root - INFO - Validation Process Started
+[2023-06-12 08:06:06,552] root - INFO - Checking filename
+[2023-06-12 08:06:06,553] root - INFO - Checking check_column_names
+[2023-06-12 08:06:13,644] root - INFO - Checking missing_values_whole_columns
+[2023-06-12 08:06:22,223] root - INFO - Checking replacinig_null_values_with_null
+[2023-06-12 08:06:32,501] root - INFO - replacinig_null_values_with_null is sucessfully
+[2023-06-12 08:06:32,613] root - INFO - Train_set status|is Train filename validated?: True|is train column name validated?: True|whole missing columns?True
+[2023-06-12 08:06:32,942] root - INFO - Exported validated  dataset to file: [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\Sales_Forecasting_Artifact\Artifact\data_validation\2023-06-12-08-06-00\validated_data]
+[2023-06-12 08:06:32,942] root - INFO - Checking for Data Drift
+[2023-06-12 08:06:32,942] root - INFO - Generating data drift report.json file
+[2023-06-12 08:07:40,477] root - INFO - Report.json file generation successful!!
+[2023-06-12 08:07:40,558] root - INFO - Generating data drift report.html page
+[2023-06-12 08:09:01,546] root - INFO - Report.html page generation successful!!
+[2023-06-12 08:09:01,646] root - INFO - Data validation artifact: DataValidationArtifact(schema_file_path='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\config\\schema.yaml', report_file_path='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_validation\\2023-06-12-08-06-00\\report.json', report_page_file_path='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_validation\\2023-06-12-08-06-00\\report.html', validated_file_path='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_validation\\2023-06-12-08-06-00\\validated_data', message='Validated')
+[2023-06-12 08:09:01,646] root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Data Validation log completed.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+[2023-06-12 08:09:01,646] root - INFO - Data Transformation Config: DataTransformationConfig(transformed_train_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_transformation\\2023-06-12-08-06-00\\transformed_data\\train', transformed_test_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_transformation\\2023-06-12-08-06-00\\transformed_data\\test', time_series_data_file_path='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_transformation\\2023-06-12-08-06-00\\transformed_data\\time_series_data', preprocessed_object_file_path='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_transformation\\2023-06-12-08-06-00\\preprocessed\\preprocessed.pkl', feature_engineering_object_file_path='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_transformation\\2023-06-12-08-06-00\\preprocessed\\feat_eng.pkl')
+[2023-06-12 08:09:01,646] root - INFO - 
+******************** Data Transformation log started ********************
+
+
+[2023-06-12 08:09:01,652] root - INFO - Obtaining file from file path 
+[2023-06-12 08:09:01,652] root - INFO - Loading Data as pandas dataframe.
+[2023-06-12 08:09:08,978] root - INFO -  Data columns Index(['date', 'store_nbr', 'family', 'sales', 'onpromotion', 'holiday_type',
+       'locale', 'locale_name', 'description', 'transferred', 'oil_price',
+       'city', 'state', 'store_type', 'cluster', 'transactions', 'year',
+       'month', 'week', 'quarter', 'day_of_week'],
+      dtype='object')
+[2023-06-12 08:09:08,978] root - INFO - Numerical columns: ['store_nbr', 'onpromotion', 'oil_price', 'cluster', 'transactions']
+[2023-06-12 08:09:08,979] root - INFO - Categorical columns: ['family', 'holiday_type', 'locale', 'locale_name', 'description', 'city', 'state', 'store_type', 'transferred']
+[2023-06-12 08:09:08,979] root - INFO - Target Column: ['sales']
+[2023-06-12 08:09:08,979] root - INFO - Date column :['date']
+[2023-06-12 08:09:08,979] root - INFO - All columns: ['store_nbr', 'onpromotion', 'oil_price', 'cluster', 'transactions', 'family', 'holiday_type', 'locale', 'locale_name', 'description', 'city', 'state', 'store_type', 'transferred', 'date', 'sales']
+[2023-06-12 08:09:09,434] root - INFO - Obtaining feature engineering object.
+[2023-06-12 08:09:09,434] root - INFO - 
+******************** Feature Engneering Started ********************
+
+
+[2023-06-12 08:09:09,434] root - INFO -  Numerical Columns , Categorical Columns , Target Column initialised in Feature engineering Pipeline 
+[2023-06-12 08:09:09,434] root - INFO - Applying feature engineering object on training dataframe and testing dataframe
+[2023-06-12 08:09:09,434] root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Training data <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+[2023-06-12 08:09:09,434] root - INFO - Feature Enineering - Train Data 
+[2023-06-12 08:09:09,435] root - INFO - Columns not found: ['year', 'month', 'week', 'quarter', 'day_of_week']
+[2023-06-12 08:09:24,563] root - INFO -  Oil Price column renamed 
+[2023-06-12 08:09:24,581] root - INFO -    store_nbr  onpromotion  oil_price  cluster  transactions  ...      state store_type transferred       date sales
+0          1            0      93.14       13   1697.071441  ...  Pichincha          D       False 2013-01-01   0.0
+1          1            0      93.14       13   1697.071441  ...  Pichincha          D       False 2013-01-01   0.0
+2          1            0      93.14       13   1697.071441  ...  Pichincha          D       False 2013-01-01   0.0
+3          1            0      93.14       13   1697.071441  ...  Pichincha          D       False 2013-01-01   0.0
+4          1            0      93.14       13   1697.071441  ...  Pichincha          D       False 2013-01-01   0.0
+
+[5 rows x 16 columns]
+[2023-06-12 08:09:27,185] root - INFO - Shape before removing duplicates: (3054348, 16)
+[2023-06-12 08:09:27,186] root - INFO - Shape after removing duplicates: (3045438, 16)
+[2023-06-12 08:09:27,186] root - INFO - Count of duplicate values: 8910
+[2023-06-12 08:09:29,745] root - INFO - No missing values found in the dataframe.
+[2023-06-12 08:09:29,746] root - INFO - 'id' column not found. Skipping dropping operation.
+[2023-06-12 08:09:29,746] root - INFO - Dropping rows with null values...
+[2023-06-12 08:09:29,746] root - INFO - Resetting DataFrame index...
+[2023-06-12 08:09:29,746] root - INFO - Columns dropped, null values removed, and index reset.
+[2023-06-12 08:09:29,760] root - INFO - Top 5 rows of df: 
+    store_nbr  onpromotion  oil_price  cluster  transactions  ...      state store_type transferred       date sales
+0          1            0      93.14       13   1697.071441  ...  Pichincha          D       False 2013-01-01   0.0
+1          1            0      93.14       13   1697.071441  ...  Pichincha          D       False 2013-01-01   0.0
+2          1            0      93.14       13   1697.071441  ...  Pichincha          D       False 2013-01-01   0.0
+3          1            0      93.14       13   1697.071441  ...  Pichincha          D       False 2013-01-01   0.0
+4          1            0      93.14       13   1697.071441  ...  Pichincha          D       False 2013-01-01   0.0
+
+[5 rows x 16 columns]
+[2023-06-12 08:09:29,760] root - INFO - Handling missing values in 'transactions' column...
+[2023-06-12 08:09:29,802] root - INFO - Checking 'oil_price' column for missing values...
+[2023-06-12 08:09:29,808] root - INFO - Number of missing values: 0
+[2023-06-12 08:09:29,808] root - INFO - interpolate missing values in 'oil_price' column...
+[2023-06-12 08:09:29,838] root - INFO - Number of missing values after filling: 0
+[2023-06-12 08:09:29,997] root - INFO - 0    Holiday
+Name: holiday_type, dtype: object
+[2023-06-12 08:09:29,997] root - INFO - Filling missing values in 'holiday_type' column with mode...
+[2023-06-12 08:09:30,220] root - INFO - Filling missing values in 'locale' column with mode...
+[2023-06-12 08:09:30,447] root - INFO - Filling missing values in 'locale_name' column with mode...
+[2023-06-12 08:09:30,674] root - INFO - Filling missing values in 'description' column with mode...
+[2023-06-12 08:09:30,912] root - INFO - Filling missing values in 'transferred' column with mode...
+[2023-06-12 08:09:30,932] root - INFO - Missing values handled.
+[2023-06-12 08:09:31,278] root - INFO - Column 'family' converted to 'category' data type.
+[2023-06-12 08:09:31,528] root - INFO - Column 'holiday_type' converted to 'category' data type.
+[2023-06-12 08:09:31,776] root - INFO - Column 'locale' converted to 'category' data type.
+[2023-06-12 08:09:31,997] root - INFO - Column 'locale_name' converted to 'category' data type.
+[2023-06-12 08:09:32,217] root - INFO - Column 'description' converted to 'category' data type.
+[2023-06-12 08:09:32,388] root - INFO - Column 'city' converted to 'category' data type.
+[2023-06-12 08:09:32,580] root - INFO - Column 'state' converted to 'category' data type.
+[2023-06-12 08:09:32,697] root - INFO - Column 'store_type' converted to 'category' data type.
+[2023-06-12 08:09:32,750] root - INFO - Column 'transferred' converted to 'category' data type.
+[2023-06-12 08:09:32,750] root - INFO - Dropping unwanted columns form dataframe
+[2023-06-12 08:09:32,750] root - ERROR - 
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\pipeline\training_pipeline.py] at 
+                        try block line number: [91] execption block line number: [98]
+                        error message: [
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\pipeline\training_pipeline.py] at 
+                        try block line number: [63] execption block line number: [65]
+                        error message: [
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\components\data_transformation.py] at 
+                        try block line number: [486] execption block line number: [571]
+                        error message: [
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\components\data_transformation.py] at 
+                        try block line number: [342] execption block line number: [354]
+                        error message: [
+                        error occured in script: 
+                        [C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\store_sales\components\data_transformation.py] at 
+                        try block line number: [319] execption block line number: [334]
+                        error message: ["['year', 'month', 'week', 'quarter', 'day_of_week'] not found in axis"]]]]]
+[2023-06-12 08:09:32,864] root - INFO - 
+******************** Data Transformation log completed ********************
+
+
