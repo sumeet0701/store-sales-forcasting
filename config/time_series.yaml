@@ -1,19 +1,31 @@
-date_column:
- - date
-droping_unwanted_columns:
-  - locale
-  - locale_name
-  - description
-  - transferred
-  - city
-  - state
-label_encoder:
-  - holiday_type
-  - store_type
-features_selected:
- - sales
- - holiday_type
- - onpromotion
- - store_type
- - store_nbr
+time_model_file_name: grouped_data.csv
+drop_columns:
+- family
+- holiday_type
+- locale
+- locale_name
+- description
+- city
+- state
+- cluster
+- transactions
+group_columns:
+- date
+sum_columns:
+- onpromotion
+- holiday_type
+- sales
+- store_type
+- store_nbr
+mean_columns:
+- oil_price
+label_encode:
+- holiday_type
+target_column:
+- sales
+exog_columns:
+- onpromotion
+- holiday_type
+- store_type
+- store_nbr
 

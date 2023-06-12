@@ -42,9 +42,15 @@ class ModelTrainer:
             self.results = []
             # Define the models and their hyperparameters
             self.models = {
-                "XG_Boost": [XGBRegressor(eval_metric='r2'),
-                           {"max_depth": [12,15,20,25],
-                              "n_estimators": [50, 150,200], "learning_rate": [0.1,0.2,0.25]}]}
+                "XG_Boost": [XGBRegressor(
+                n_estimators=100,
+                max_depth=6,
+                min_child_weight=1,
+                learning_rate=0.1,
+                subsample=0.8,
+                colsample_bytree=0.8
+                ),
+                           ]}
         except Exception as e:
             raise CustomException(e, sys)
 

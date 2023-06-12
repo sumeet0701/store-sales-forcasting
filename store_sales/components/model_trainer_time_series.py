@@ -57,11 +57,8 @@ import pandas as pd
 
 def group_data(df, group_columns, sum_columns, mean_columns):
     # Group by the specified columns and calculate the sum and mean
-    grouped_df = df.groupby(group_columns)[sum_columns].sum()
-    
-    grouped_df[mean_columns] = df.groupby(group_columns)[mean_columns].mean()
-
-
+    df = df.groupby(group_columns)[sum_columns].sum()
+    df[mean_columns] = df.groupby(group_columns)[mean_columns].mean()
     return df
 
 
@@ -125,12 +122,12 @@ class SarimaModelTrainer:
 
 
     def forecast_and_save(self,df:pd.DataFrame, target_column, model, exog_columns=None, num_days=70):
-        last_60_days = df.iloc[-num_days:]
+        last_70_days = df.iloc[-num_days:]
 
         # Extract the exogenous variables for the last 60 days
-        exog_data = last_60_days[exog_columns]
+        exog_data = last_70_days[exog_columns]
 
-        forecast = model.get_prediction(start=last_60_days.index[0], end=last_60_days.index[-1], exog=exog_data)
+        forecast = model.get_prediction(start=last_70_days.index[0], end=last_70_days.index[-1], exog=exog_data)
         predicted_values = forecast.predicted_mean
 
         # Plotting actual and predicted values for the last few rows

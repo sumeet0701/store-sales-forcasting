@@ -37,7 +37,7 @@ DATA_VALIDATION_REPORT_FILE_NAME_KEY = "report_file_name"
 DATA_VALIDATION_REPORT_PAGE_FILE_NAME_KEY = "report_page_file_name"
 
 # Data Transformation related variables
-PIKLE_FOLDER_NAME_KEY='Prediction_Files'
+PIKLE_FOLDER_NAME_KEY='Time_Prediction_Files'
 # Artifact
 DATA_TRANSFORMATION_ARTIFACT_DIR = "data_transformation"
 
@@ -76,15 +76,11 @@ MODEL_TRAINER_CONFIG_KEY = "model_trainer_config"
 MODEL_TRAINER_ARTIFACT_DIR = "model_training"
 MODEL_TRAINER_TRAINED_MODEL_DIR = "trained_model_dir"
 MODEL_TRAINER_TRAINED_MODEL_FILE_NAME_KEY = "model_file_name"
-PIKLE_FOLDER_NAME_KEY = "prediction_files"
+PIKLE_FOLDER_NAME_KEY = "Time_Prediction_Files"
 
 PIKLE_FOLDER_NAME_KEY = "Time_Prediction_Files"
 
-# Model Training related variables
-MODEL_TRAINER_TIME_CONFIG_KEY = "model_trainer_time_config"
-MODEL_TRAINER_ARTIFACT_DIR = "model_training"
-MODEL_TRAINER_TRAINED_MODEL_DIR = "trained_model_dir"
-MODEL_TRAINER_TRAINED_MODEL_FILE_NAME_KEY = "model_file_name"
+
 
 
 # Training pipeline related variable
@@ -110,4 +106,18 @@ LABEL_ENCODER_COLUMNS = 'label_encoder_columns'
 DATABASE_NAME = 'store_sales_db'
 COLLECTION_NAME = 'store_sales'
 
+PIKLE_FOLDER_NAME_KEY = "Time_Prediction_Files"
 
+# Model Training related variables
+MODEL_TRAINER_TIME_CONFIG_KEY = "model_trainer_time_config"
+MODEL_TRAINER_ARTIFACT_DIR = "model_training"
+MODEL_TRAINER_TRAINED_MODEL_DIR = "trained_model_dir"
+MODEL_TRAINER_TRAINED_MODEL_FILE_NAME_KEY = "model_file_name"
+MODEL_REPORT_FILE_NAME='model_report_file_name'
+PREDICTION_IMAGE='prediction_image'
+MODEL_TRAINER_FILE = "time_model_file_name"
+
+
+GROUP_COLUMN ='group_columns'
+SUM_COLUMN = 'sum_columns'
+MEAN_COLUMN = 'mean_columns'
