@@ -1,0 +1,18 @@
+[2023-06-12 17:43:05,546] root - INFO - Training pipleine config: TrainingPipelineConfig(artifact_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact')
+[2023-06-12 17:43:05,546] root - INFO - Data Ingestion config: DataIngestionConfig(raw_data_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_ingestion\\2023-06-12-17-42-55\\raw_data', ingested_data_dir='C:\\Users\\Sumeet Maheshwari\\Desktop\\end to end project\\Store Sales Forcasting using Time series\\store-sales-forcasting\\Sales_Forecasting_Artifact\\Artifact\\data_ingestion\\2023-06-12-17-42-55\\ingested_data')
+[2023-06-12 17:43:05,547] root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Data Ingestion log started.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+
+
+[2023-06-12 17:43:06,212] root - INFO - Data Ingestion Artifact
+[2023-06-12 17:43:06,212] root - INFO - File Path : C:\Users\Sumeet Maheshwari\Desktop\Store sales Forecasting (2)\Jup_Notebook\Merged_dataset\outlier_clean.csv
+[2023-06-12 17:43:06,212] root - INFO - File Name: final_data.csv
+[2023-06-12 17:43:06,212] root - INFO - File Ingested File Path: C:\Users\Sumeet Maheshwari\Desktop\end to end project\Store Sales Forcasting using Time series\store-sales-forcasting\Sales_Forecasting_Artifact\Artifact\data_ingestion\2023-06-12-17-42-55\raw_data\final_data.csv
+[2023-06-12 17:43:06,213] root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Data Validation log started.<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+
+
+[2023-06-12 17:43:06,213] root - INFO - *****************Ingested data validation Started****************
+[2023-06-12 17:43:06,220] root - INFO - Validation Process Started
+[2023-06-12 17:43:06,220] root - INFO - Checking filename
+[2023-06-12 17:43:06,220] root - INFO - Checking check_column_names
+[2023-06-12 17:43:13,832] root - INFO - Checking missing_values_whole_columns
+[2023-06-12 17:43:22,547] root - INFO - Checking replacinig_null_values_with_null

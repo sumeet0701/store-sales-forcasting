@@ -121,3 +121,12 @@ MODEL_TRAINER_FILE = "time_model_file_name"
 GROUP_COLUMN ='group_columns'
 SUM_COLUMN = 'sum_columns'
 MEAN_COLUMN = 'mean_columns'
+
+TIME_CONFIG_FILE_NAME='time_series.yaml'
+TIME_CONFIG_FILE_PATH=os.path.join(ROOT_DIR,CONFIG_DIR,TIME_CONFIG_FILE_NAME)
+
+EXOG_COLUMNS='exog_columns'
+
+TARGET_COLUMN='target_column'
+LABEL_ENCODE_COLUMNS='label_encode'
+

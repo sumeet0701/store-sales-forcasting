@@ -229,7 +229,8 @@ class ProphetModelTrainer:
     def forecast_and_plot(self):
         if self.model is None or self.test_data is None:
             raise ValueError("Prophet model is not fitted. Call 'fit_prophet_with_plots' first.")
-        forecast_and_plot(self.model, self.test_data)
+        
+        forecast_and_plot(self.model,self.test_data)
 
 import matplotlib.pyplot as plt
 from prophet import Prophet

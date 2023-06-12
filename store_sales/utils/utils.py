@@ -131,3 +131,17 @@ def save_array_to_directory(array: np.array,
         np.save(file_path, array)
     except Exception as e:
         CustomException(e,sys)
+
+def save_image(image_path, image):
+    """
+    Save an image to a specified file path.
+    
+    Args:
+        image_path (str): The file path to save the image.
+        image (PIL.Image.Image): The image object to save.
+    """
+    try:
+        image.save(image_path)
+        print(f"Image saved successfully at {image_path}")
+    except Exception as e:
+        print(f"Error saving image: {str(e)}")
